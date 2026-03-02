@@ -111,53 +111,67 @@ canvas#field{border-radius:10px;display:block}
     <div class="cat-tab" data-cat="stack">Stack</div>
     <div class="cat-tab" data-cat="iso">ISO</div>
   </div>
-  <div class="play-list" id="playList"></div>
+  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item active" data-id="play7"><div class="play-name">Boston</div><div class="play-concept">Untitled Concept</div><div class="play-cat">motion</div></div></div>
   <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
 </div>
 
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="700" height="520"></canvas>
-      <div class="annotation-box" id="annoBox"></div>
+      <canvas id="field" width="1067" height="671" style="cursor: default;"></canvas>
+      <div class="annotation-box visible" id="annoBox">[KF 1] Starting formation</div>
     </div>
   </div>
   <div class="controls">
-    <button class="ctrl-btn" id="resetBtn" title="Reset">&#9198;</button>
-    <button class="ctrl-btn" id="playBtn" title="Play / Pause">&#9654;</button>
+    <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
+    <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
     <span class="time-disp" id="timeDisp">0.0s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
-      <option value="1" selected>1x</option>
+      <option value="1" selected="">1x</option>
       <option value="1.5">1.5x</option>
       <option value="2">2x</option>
     </select>
-    <label class="tog-paths"><input type="checkbox" id="showPaths" checked> Paths</label>
-    <label class="tog-paths"><input type="checkbox" id="showOff" checked> Off</label>
-    <label class="tog-paths"><input type="checkbox" id="showDef" checked> Def</label>
-    <button class="edit-toggle" id="editToggle">Edit</button>
+    <label class="tog-paths"><input type="checkbox" id="showPaths" checked=""> Paths</label>
+    <label class="tog-paths"><input type="checkbox" id="showOff" checked=""> Off</label>
+    <label class="tog-paths"><input type="checkbox" id="showDef" checked=""> Def</label>
+    <button class="edit-toggle active" id="editToggle">Edit</button>
   </div>
-  <div class="edit-bar" id="editBar" style="display:none">
-    <button class="eb" id="ebPrev" title="Previous keyframe">&laquo; Prev</button>
-    <span class="kf-label" id="kfLabel">KF 1 / 1</span>
-    <button class="eb" id="ebNext" title="Next keyframe">Next &raquo;</button>
+  <div class="edit-bar" id="editBar" style="display: flex;">
+    <button class="eb" id="ebPrev" title="Previous keyframe" disabled="">« Prev</button>
+    <span class="kf-label" id="kfLabel">KF 1 / 6</span>
+    <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
-    <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">&times; Del KF</button>
+    <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2" selected="">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
     <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
   </div>
-  <div class="details" id="details">
-    <h2>Select a Play</h2>
-    <p>Click a play from the sidebar to begin.</p>
-  </div>
+  <div class="meta-edit" id="details">
+      <div class="meta-row">
+        <div><label>Play Name</label><input id="metaName" value="Boston"></div>
+        <div><label>Category</label><select id="metaCat">
+          <option value="settled">Settled</option>
+          <option value="motion" selected="">Motion</option>
+          <option value="stack">Stack</option>
+          <option value="iso">ISO</option>
+        </select></div>
+        <div><label>Formation</label><input id="metaForm" value="3-2-2" style="width:80px"></div>
+      </div>
+      <label>Subtitle / Concept</label><input id="metaSub" value="Untitled Concept">
+      <label>Description</label><textarea id="metaDesc" rows="2">Weave - A simpler version of the Syracuse. Run this after Nike.</textarea>
+      <label>Coaching Notes</label><textarea id="metaCoach" rows="2"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <button class="del-play-btn" id="delPlayBtn">Delete This Play</button>
+        <span style="font-size:11px;color:#555">ID: play7</span>
+      </div></div>
 </div>
 
 <script>
@@ -201,114 +215,1654 @@ const ROLES = OFF_ROLES; // backward compat for ball carrier etc
 // ============================================================
 const PLAYS = [
   {
-    id:'skittles', name:'Skittles',
-    sub:'Pass Down, Pick Down — Pick & Roll',
-    cat:'settled', form:'3-2-2',
-    desc:'Ball starts with A2 and goes to A4 at GLE. A2 comes down to set a pick for A4 just above GLE. A4 uses the pick by running to the outside past A2. If defenders leave A2 to double A4, A2 rolls to goal. This is a 2-man game between A4 and A2.',
-    coach:'A2 must be set (feet planted) before contact. A4 runs outside the pick toward the sideline. A2 reads the defense — if they leave you to double, roll hard to goal for the pass. 2-man game: A4 and A2 read and react together.',
-    dur:7,
-    kf:[
-      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[46.3,36.6],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[48,39],G:[35,32.8]}, b:'A2', n:'Formation — ball with A2'},
-      {t:1.2, p:{A4:[47.5,33.5],A2:[50.9,25.6],D5:[52,27],D7:[49,35]}, b:'A4', n:'A2 passes to A4 at GLE'},
-      {t:2.5, p:{A2:[48.3,29.6],A4:[49,30.3],D5:[50,31],D7:[50,32]}, b:'A4', n:'A2 moves down to set pick above GLE'},
-      {t:3.2, p:{A2:[47.5,30.4],A4:[46.9,26],D5:[49,32],D7:[48.5,29]}, b:'A4', n:'Pick is set!'},
-      {t:4.2, p:{A4:[42.2,24.6],A2:[47.3,30.6],D5:[46,28],D7:[47,30]}, b:'A4', n:'A4 drives outside off pick'},
-      {t:5.2, p:{A4:[38.9,25],A2:[45.7,31.3],D5:[42,28],D7:[46,31],D4:[22,28],G:[35,31]}, b:'A4', n:'A4 drives to goal — A2 rolls'},
-      {t:6.2, p:{A4:[34.1,25.5],A2:[40.1,30.1],D5:[38,27],D7:[42,30],G:[34,30]}, b:'A4', n:'A4 scores or feeds A2 if defense leaves her open'},
-      {t:6.7, p:{D5:[40,30],G:[35,31]}, b:'A2', n:'A2 scores'}
+    "id": "skittles",
+    "name": "Skittles",
+    "sub": "Pass Down, Pick Down — Pick & Roll",
+    "cat": "settled",
+    "form": "3-2-2",
+    "desc": "Ball starts with A2 and goes to A4 at GLE. A2 comes down to set a pick for A4 just above GLE. A4 uses the pick by running to the outside past A2. If defenders leave A2 to double A4, A2 rolls to goal. This is a 2-man game between A4 and A2.",
+    "coach": "A2 must be set (feet planted) before contact. A4 runs outside the pick toward the sideline. A2 reads the defense — if they leave you to double, roll hard to goal for the pass. 2-man game: A4 and A2 read and react together.",
+    "dur": 7,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            15
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            18,
+            24
+          ],
+          "A2": [
+            52,
+            24
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            46.3,
+            36.6
+          ],
+          "D7": [
+            43.4,
+            31.3
+          ],
+          "D6": [
+            26.3,
+            31.5
+          ],
+          "G": [
+            35,
+            32.6
+          ]
+        },
+        "b": "A2",
+        "n": "Formation — ball with A2"
+      },
+      {
+        "t": 1.2,
+        "p": {
+          "A4": [
+            47.5,
+            33.5
+          ],
+          "A2": [
+            50.9,
+            25.6
+          ],
+          "D7": [
+            45,
+            32.2
+          ],
+          "D5": [
+            47.3,
+            26.7
+          ]
+        },
+        "b": "A4",
+        "n": "A2 passes to A4 at GLE"
+      },
+      {
+        "t": 2.5,
+        "p": {
+          "A2": [
+            48.3,
+            29.6
+          ],
+          "A4": [
+            49,
+            30.3
+          ],
+          "D7": [
+            46.2,
+            30.1
+          ],
+          "D5": [
+            46.7,
+            28.5
+          ]
+        },
+        "b": "A4",
+        "n": "A2 moves down to set pick above GLE"
+      },
+      {
+        "t": 3.2,
+        "p": {
+          "A2": [
+            47.5,
+            30.4
+          ],
+          "A4": [
+            46.9,
+            26
+          ],
+          "D7": [
+            45.6,
+            27.9
+          ]
+        },
+        "b": "A4",
+        "n": "Pick is set!"
+      },
+      {
+        "t": 4.2,
+        "p": {
+          "A4": [
+            42.2,
+            24.6
+          ],
+          "A2": [
+            47.3,
+            30.6
+          ],
+          "D5": [
+            44.1,
+            26.4
+          ],
+          "D7": [
+            42.3,
+            26.7
+          ]
+        },
+        "b": "A4",
+        "n": "A4 drives outside off pick"
+      },
+      {
+        "t": 5.2,
+        "p": {
+          "A4": [
+            38.9,
+            25
+          ],
+          "A2": [
+            45.7,
+            31.3
+          ],
+          "D5": [
+            40.7,
+            25.3
+          ],
+          "D7": [
+            38.3,
+            26.5
+          ]
+        },
+        "b": "A4",
+        "n": "A4 drives to goal — A2 rolls"
+      },
+      {
+        "t": 6.2,
+        "p": {
+          "A4": [
+            34.1,
+            25.5
+          ],
+          "A2": [
+            38.5,
+            30.1
+          ],
+          "D5": [
+            36.8,
+            24.9
+          ],
+          "D7": [
+            34.2,
+            27.1
+          ]
+        },
+        "b": "A4",
+        "n": "A4 scores or feeds A2 if defense leaves her open"
+      },
+      {
+        "t": 6.7,
+        "p": {},
+        "b": "A2",
+        "n": "A2 scores"
+      },
+      {
+        "t": 7.2,
+        "p": {},
+        "b": "G"
+      }
     ]
   },
   {
-    id:'nike', name:'Nike',
-    sub:'Ball Reversal \u2014 Settle the Offense',
-    cat:'settled', form:'3-2-2',
-    desc:'Pass the ball all the way around the formation to settle after transition, shift the defense, and set up the next play call.',
-    coach:'All passes should be quick and sharp \u2014 no slow loopy passes. Players maintain spacing throughout. This is a setup play, not a scoring play.',
-    dur:8,
-    kf:[
-      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M1', n:'Ball starts with M1'},
-      {t:1, p:{D2:[36,14],D1:[25,17]}, b:'M2', n:'M1 \u2192 M2'},
-      {t:2, p:{D3:[49,16],D2:[37,16]}, b:'M3', n:'M2 \u2192 M3'},
-      {t:3, p:{D5:[53,25],D3:[50,18]}, b:'A2', n:'M3 \u2192 A2'},
-      {t:4, p:{D7:[49,38],D5:[53,27]}, b:'A4', n:'A2 \u2192 A4'},
-      {t:5, p:{D6:[24,38],D7:[49,39]}, b:'A3', n:'A4 \u2192 A3'},
-      {t:6, p:{D4:[20,26],D6:[24,39]}, b:'A1', n:'A3 \u2192 A1'},
-      {t:7, p:{D1:[24,17],D4:[20,27]}, b:'M1', n:'A1 \u2192 M1 \u2014 reset complete'}
+    "id": "nike",
+    "name": "Nike",
+    "sub": "Ball Reversal — Settle the Offense",
+    "cat": "settled",
+    "form": "3-2-2",
+    "desc": "Pass the ball all the way around the formation to settle after transition, shift the defense, and set up the next play call.",
+    "coach": "All passes should be quick and sharp — no slow loopy passes. Players maintain spacing throughout. This is a setup play, not a scoring play.",
+    "dur": 8,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            15
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            18,
+            24
+          ],
+          "A2": [
+            52,
+            24
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            48,
+            37
+          ]
+        },
+        "b": "M1",
+        "n": "Ball starts with M1"
+      },
+      {
+        "t": 1,
+        "p": {},
+        "b": "M2",
+        "n": "M1 → M2"
+      },
+      {
+        "t": 2,
+        "p": {},
+        "b": "M3",
+        "n": "M2 → M3"
+      },
+      {
+        "t": 3,
+        "p": {},
+        "b": "A2",
+        "n": "M3 → A2"
+      },
+      {
+        "t": 4,
+        "p": {},
+        "b": "A4",
+        "n": "A2 → A4"
+      },
+      {
+        "t": 5,
+        "p": {},
+        "b": "A3",
+        "n": "A4 → A3"
+      },
+      {
+        "t": 6,
+        "p": {},
+        "b": "A1",
+        "n": "A3 → A1"
+      },
+      {
+        "t": 7,
+        "p": {},
+        "b": "M1",
+        "n": "A1 → M1 — reset complete"
+      }
     ]
   },
   {
-    id:'syracuse', name:'Syracuse',
-    sub:'Weave — Pass or Screen',
-    cat:'motion', form:'3-2-2',
-    desc:'M1 carries ball and weaves with M2 simultaneously. Ball moves through M3, A1, A2 via passes or screens. All players move toward the ball when catching. After completing their weave, M2 replaces A1 and M1 replaces A2 to keep motion going. Drive to goal when you have a lane.',
-    coach:'Every exchange can be a pass or a screen. All players move TOWARD the ball. After your weave, keep running to replace the next player down — M2 fills A1’s spot, M1 fills A2’s. Constant motion unsettles the defense. Drive the moment a lane opens.',
-    dur:9,
-    kf:[
-      {t:0, p:{M1:[20.9,13.9],M2:[35,13.9],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[23,17],D2:[37,17],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M1', n:'Ball with M1'},
-      {t:1.5, p:{M1:[35.3,12.9],M2:[23.8,15.7],A1:[20.4,18.2],D1:[30,16],D2:[28,18]}, b:'M1', n:'M1 & M2 weave — M1 carries right'},
-      {t:2.5, p:{M3:[37.4,12.3],M1:[42,15.1],M2:[20,18],A1:[26.2,14.2],A2:[50.7,19.1],D3:[40,15],D1:[38,17],D2:[23,20],D4:[22,22],D5:[52,22]}, b:'M3', n:'M1 to M3 moving toward ball'},
-      {t:3.15, p:{A1:[30.6,12.6],A2:[47.9,16.4],M1:[44.9,16.6],D4:[28,16],D5:[49,19]}, b:'M3'},
-      {t:3.8, p:{M3:[28,18],A1:[37.8,15.7],M2:[18,23],M1:[49.8,20.1],A2:[43.7,14.4],D3:[31,20],D4:[35,18],D2:[20,24],D1:[48,22],D5:[45,17]}, b:'A1', n:'M3 to A1 — A1 moves toward ball'},
-      {t:5, p:{A1:[43.5,18.5],A2:[35.8,15.3],M2:[18,24],M1:[52,24],D5:[38,18],D4:[40,21],D2:[20,26],D1:[54,27]}, b:'A2', n:'A1 to A2 — M2 replaces A1, M1 replaces A2'},
-      {t:6.2, p:{A2:[32.7,24.8],M2:[18,24],M1:[52,24],A1:[42,26.7],D5:[35,26],D4:[40,28],G:[35,31]}, b:'A2', n:'A2 sees lane — drives!'},
-      {t:7.5, p:{A2:[31,27.9],A1:[40.4,28.6],D5:[33,28],G:[34,30]}, b:'A2', n:'A2 attacks goal'},
-      {t:8.5, p:{A2:[35,31],D5:[35,31],G:[35,31]}, b:'A2', n:'A2 finishes — motion kept defense unsettled'}
+    "id": "syracuse",
+    "name": "Syracuse",
+    "sub": "Weave — Pass or Screen",
+    "cat": "motion",
+    "form": "3-2-2",
+    "desc": "M1 carries ball and weaves with M2 simultaneously. Ball moves through M3, A1, A2 via passes or screens. All players move toward the ball when catching. After completing their weave, M2 replaces A1 and M1 replaces A2 to keep motion going. Drive to goal when you have a lane.",
+    "coach": "Every exchange can be a pass or a screen. All players move TOWARD the ball. After your weave, keep running to replace the next player down — M2 fills A1’s spot, M1 fills A2’s. Constant motion unsettles the defense. Drive the moment a lane opens.",
+    "dur": 9,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            23.5,
+            18.8
+          ],
+          "M2": [
+            35.4,
+            16.1
+          ],
+          "M3": [
+            47.1,
+            18
+          ],
+          "A1": [
+            18.6,
+            25.4
+          ],
+          "A2": [
+            51.5,
+            26.3
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            48,
+            37
+          ],
+          "D1": [
+            26.7,
+            22.6
+          ],
+          "D4": [
+            23.5,
+            28.3
+          ],
+          "D2": [
+            35.1,
+            20.1
+          ],
+          "D3": [
+            43.3,
+            22.7
+          ],
+          "D5": [
+            46.9,
+            28.6
+          ]
+        },
+        "b": "M1",
+        "n": "Ball with M1"
+      },
+      {
+        "t": 1.5,
+        "p": {
+          "M1": [
+            35.4,
+            14.4
+          ],
+          "M2": [
+            28,
+            17.4
+          ],
+          "A1": [
+            22.5,
+            20.3
+          ],
+          "D1": [
+            35.4,
+            18
+          ],
+          "D2": [
+            28.2,
+            20
+          ],
+          "D4": [
+            24.8,
+            23.8
+          ]
+        },
+        "b": "M1",
+        "n": "M1 & M2 weave — M1 carries right"
+      },
+      {
+        "t": 2.5,
+        "p": {
+          "M3": [
+            37.4,
+            12.3
+          ],
+          "M1": [
+            42,
+            15.1
+          ],
+          "M2": [
+            20.5,
+            20
+          ],
+          "A1": [
+            26.2,
+            14.2
+          ],
+          "A2": [
+            50.7,
+            19.1
+          ],
+          "D3": [
+            36.3,
+            15.6
+          ],
+          "D1": [
+            41.2,
+            19.5
+          ],
+          "D4": [
+            27.9,
+            17.7
+          ],
+          "D2": [
+            23.4,
+            21.9
+          ],
+          "D5": [
+            45.6,
+            22
+          ]
+        },
+        "b": "M3",
+        "n": "M1 to M3 moving toward ball"
+      },
+      {
+        "t": 3.15,
+        "p": {
+          "A1": [
+            30.6,
+            12.6
+          ],
+          "A2": [
+            47.9,
+            16.4
+          ],
+          "M1": [
+            44.9,
+            16.6
+          ],
+          "D4": [
+            30.5,
+            16.2
+          ],
+          "D5": [
+            44.3,
+            21.4
+          ],
+          "D1": [
+            42,
+            19.9
+          ]
+        },
+        "b": "M3"
+      },
+      {
+        "t": 3.8,
+        "p": {
+          "M3": [
+            28,
+            18
+          ],
+          "A1": [
+            37.8,
+            15.7
+          ],
+          "M2": [
+            18,
+            23
+          ],
+          "M1": [
+            49.8,
+            20.1
+          ],
+          "A2": [
+            43.7,
+            14.4
+          ],
+          "D5": [
+            42.9,
+            19.1
+          ],
+          "D1": [
+            46.8,
+            22.9
+          ],
+          "D4": [
+            37.2,
+            19.3
+          ],
+          "D3": [
+            30.1,
+            19
+          ]
+        },
+        "b": "A1",
+        "n": "M3 to A1 — A1 moves toward ball"
+      },
+      {
+        "t": 5,
+        "p": {
+          "A1": [
+            43.5,
+            18.5
+          ],
+          "A2": [
+            35.8,
+            15.3
+          ],
+          "M2": [
+            18,
+            24
+          ],
+          "M1": [
+            52,
+            24
+          ],
+          "D4": [
+            41,
+            20.5
+          ],
+          "D5": [
+            37.8,
+            18.3
+          ]
+        },
+        "b": "A2",
+        "n": "A1 to A2 — M2 replaces A1, M1 replaces A2"
+      },
+      {
+        "t": 6.2,
+        "p": {
+          "A2": [
+            32.7,
+            24.8
+          ],
+          "M2": [
+            18,
+            24
+          ],
+          "M1": [
+            52,
+            24
+          ],
+          "A1": [
+            42,
+            26.7
+          ],
+          "D4": [
+            41.3,
+            23.3
+          ],
+          "D5": [
+            35.3,
+            21.8
+          ]
+        },
+        "b": "A2",
+        "n": "A2 sees lane — drives!"
+      },
+      {
+        "t": 7.5,
+        "p": {
+          "A2": [
+            31,
+            27.9
+          ],
+          "A1": [
+            40.4,
+            28.6
+          ],
+          "D5": [
+            34.2,
+            24.8
+          ],
+          "D4": [
+            37.2,
+            25.2
+          ]
+        },
+        "b": "A2",
+        "n": "A2 attacks goal"
+      },
+      {
+        "t": 8.5,
+        "p": {
+          "A2": [
+            31.8,
+            28.7
+          ]
+        },
+        "b": "G",
+        "n": "A2 finishes — motion kept defense unsettled"
+      }
     ]
   },
   {
-    id:'carolina', name:'Carolina',
-    sub:'Attack Wheel — CCW Cycle',
-    cat:'motion', form:'3-2-2',
-    desc:'A2 starts by cutting through the 8m and around the goal. A4 has the ball and drives CCW on goal, passes back to A3 who is following. A3 drives on goal and passes back to A2 who has cycled around. Pattern repeats 3 times.',
-    coach:'CCW favors right-handed players. Drive hard around the crease. If you can’t beat your defender, pass back to the attacker following you. The wheel repeats — drive and score, or give-and-go on the pass back. Keep the cycle moving.',
-    dur:12,
-    kf:[
-      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[50.9,27.9],A3:[22,37],A4:[41.2,37.6],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[52,30],D6:[24,39],D7:[43,39],G:[35,32.8]}, b:'A4', n:'A4 has ball — A2 cuts through 8m'},
-      {t:1, p:{A2:[34.4,26.4],A4:[43.6,31.5],A3:[28.5,39],D5:[36,28],D7:[45,33]}, b:'A4', n:'A2 cutting through 8m — A4 drives CCW'},
-      {t:2, p:{A4:[37.6,27.6],A2:[24,32],A3:[42,38],D7:[39,29],D5:[26,34],G:[35,31]}, b:'A4', n:'A4 drives on goal'},
-      {t:3, p:{A4:[32.2,27.1],A2:[28.1,36.1],A3:[42.9,35],D7:[34,29],D6:[44,37],D5:[30,38]}, b:'A3', n:'A4 passes back to A3 on right'},
-      {t:4.5, p:{A3:[37.6,26.8],A4:[26.9,35.7],A2:[41.2,37],D6:[39,28],D7:[29,37],D5:[43,39],G:[34,30]}, b:'A3', n:'A3 drives on goal CCW'},
-      {t:5.5, p:{A3:[32.7,26.5],A4:[33.1,38.5],A2:[42.3,34.9],D6:[34,28],D5:[44,37],D7:[35,40]}, b:'A2', n:'A3 passes back to A2 on right'},
-      {t:7, p:{A2:[38,26.4],A3:[29.6,36.9],A4:[42.5,37.2],D5:[40,28],D6:[31,38],D7:[44,39],G:[35,30]}, b:'A2', n:'A2 drives on goal — cycle 2'},
-      {t:8, p:{A2:[36.1,26.4],A3:[30.8,36.8],A4:[42.2,35.4],D5:[38,28],D7:[44,37],D6:[32,38]}, b:'A4', n:'A2 passes back to A4 on right'},
-      {t:9.5, p:{A4:[42.8,31.6],A2:[34.9,27],A3:[35.1,38.9],D7:[44,33],D5:[37,29],G:[34,30]}, b:'A2', n:'A4 feeds back to A2  give and go'},
-      {t:11, p:{A4:[41.2,30.6],A3:[33.6,39.5],A2:[33.8,30.5],D5:[36,31],D7:[43,32],G:[34,31]}, b:'A2', n:'A2 Shoots'}
+    "id": "carolina",
+    "name": "Carolina",
+    "sub": "Attack Wheel — CCW Cycle",
+    "cat": "motion",
+    "form": "3-2-2",
+    "desc": "A2 starts by cutting through the 8m and around the goal. A4 has the ball and drives CCW on goal, passes back to A3 who is following. A3 drives on goal and passes back to A2 who has cycled around. Pattern repeats 3 times. THE DRIVE IS VERY SUCCESSFULL WHEN DEFENDER GO BEHIND GOAL. THE GIVE AND GO IS VERY SUCCESSFUL WHEN DEFENDER SLIDES TO THE DRIVER.",
+    "coach": "CCW favors right-handed players. Drive hard around the crease. If you can’t beat your defender, pass back to the attacker following you. The wheel repeats — drive and score, or give-and-go on the pass back. Keep the cycle moving.",
+    "dur": 12,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            15
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            18,
+            24
+          ],
+          "A2": [
+            50.9,
+            27.9
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            41.2,
+            37.6
+          ],
+          "D7": [
+            42.7,
+            30.8
+          ],
+          "D6": [
+            27,
+            31.3
+          ],
+          "D5": [
+            46,
+            27.3
+          ],
+          "D3": [
+            41.7,
+            21.7
+          ],
+          "D2": [
+            35.3,
+            19.3
+          ],
+          "D1": [
+            27.5,
+            22
+          ],
+          "D4": [
+            23.6,
+            27.1
+          ]
+        },
+        "b": "A4",
+        "n": "A4 has ball — A2 cuts through 8m"
+      },
+      {
+        "t": 1,
+        "p": {
+          "A2": [
+            34.4,
+            25.2
+          ],
+          "A4": [
+            43.6,
+            31.5
+          ],
+          "A3": [
+            28.5,
+            39
+          ],
+          "D7": [
+            40.9,
+            30.7
+          ],
+          "D5": [
+            36,
+            27.2
+          ],
+          "D6": [
+            31.7,
+            29.2
+          ]
+        },
+        "b": "A4",
+        "n": "A2 cutting through 8m — A4 drives CCW"
+      },
+      {
+        "t": 2,
+        "p": {
+          "A4": [
+            37.6,
+            27.6
+          ],
+          "A2": [
+            24,
+            32
+          ],
+          "A3": [
+            42,
+            38
+          ],
+          "D5": [
+            28.1,
+            31.5
+          ],
+          "D6": [
+            39.5,
+            30.9
+          ],
+          "D7": [
+            38.1,
+            28.9
+          ]
+        },
+        "b": "A4",
+        "n": "A4 drives on goal"
+      },
+      {
+        "t": 3,
+        "p": {
+          "A4": [
+            32.2,
+            27.1
+          ],
+          "A2": [
+            28.1,
+            36.1
+          ],
+          "A3": [
+            42.9,
+            35
+          ],
+          "D7": [
+            33.3,
+            28.1
+          ],
+          "D6": [
+            41.1,
+            31.1
+          ],
+          "D5": [
+            31.1,
+            32
+          ]
+        },
+        "b": "A3",
+        "n": "A4 passes back to A3 on right"
+      },
+      {
+        "t": 4.5,
+        "p": {
+          "A3": [
+            37.6,
+            26.8
+          ],
+          "A4": [
+            26.9,
+            35.7
+          ],
+          "A2": [
+            41.2,
+            37
+          ],
+          "D6": [
+            36.4,
+            27.8
+          ],
+          "D7": [
+            29.8,
+            30.9
+          ],
+          "D5": [
+            38.4,
+            30.9
+          ]
+        },
+        "b": "A3",
+        "n": "A3 drives on goal CCW"
+      },
+      {
+        "t": 5.5,
+        "p": {
+          "A3": [
+            32.7,
+            26.5
+          ],
+          "A4": [
+            33.1,
+            38.5
+          ],
+          "A2": [
+            42.3,
+            34.9
+          ],
+          "D6": [
+            33.9,
+            28.8
+          ],
+          "D5": [
+            40,
+            31.2
+          ],
+          "D7": [
+            35,
+            28.4
+          ]
+        },
+        "b": "A2",
+        "n": "A3 passes back to A2 on right"
+      },
+      {
+        "t": 7,
+        "p": {
+          "A2": [
+            38,
+            26.4
+          ],
+          "A3": [
+            29.6,
+            36.9
+          ],
+          "A4": [
+            42.5,
+            37.2
+          ],
+          "D7": [
+            39.1,
+            31.5
+          ],
+          "D5": [
+            37.7,
+            29
+          ],
+          "D6": [
+            30.5,
+            31.7
+          ]
+        },
+        "b": "A2",
+        "n": "A2 drives on goal — cycle 2"
+      },
+      {
+        "t": 8,
+        "p": {
+          "A2": [
+            36.1,
+            26.4
+          ],
+          "A3": [
+            30.8,
+            36.8
+          ],
+          "A4": [
+            42.5,
+            32.2
+          ],
+          "D7": [
+            40.8,
+            30.1
+          ],
+          "D5": [
+            38.5,
+            30.2
+          ]
+        },
+        "b": "A4",
+        "n": "A2 passes back to A4 on right"
+      },
+      {
+        "t": 9.5,
+        "p": {
+          "A4": [
+            42.8,
+            31.6
+          ],
+          "A2": [
+            34.9,
+            27
+          ],
+          "A3": [
+            35.1,
+            38.9
+          ]
+        },
+        "b": "A2",
+        "n": "A4 feeds back to A2  give and go"
+      },
+      {
+        "t": 11,
+        "p": {
+          "A4": [
+            41.2,
+            30.6
+          ],
+          "A3": [
+            33.6,
+            39.5
+          ],
+          "A2": [
+            33.8,
+            27.6
+          ]
+        },
+        "b": "G",
+        "n": "A2 Shoots"
+      }
     ]
   },
   {
-    id:'tbone', name:'T-Bone',
-    sub:'Picket Fence — Stack at GLE',
-    cat:'stack', form:'Stack',
-    desc:'Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.',
-    coach:'Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.',
-    dur:8,
-    kf:[
-      {t:0, p:{M1:[15,14],M2:[28,12],M3:[40,14],A1:[54,30],A2:[54,32],A3:[54,34],A4:[54,36],D1:[17,17],D2:[30,15],D3:[42,17],D4:[56,31],D5:[56,33],D6:[56,35],D7:[56,37],G:[35,32.8]}, b:'M1', n:'Stack set at right GLE'},
-      {t:1.2, p:{D2:[30,14],D1:[18,16]}, b:'M2', n:'M1 passes to M2'},
-      {t:2.2, p:{A4:[56,28.7],D7:[57,30],D3:[42,16]}, b:'M3', n:'M2 → M3 — A4 peels off stack'},
-      {t:3.5, p:{A4:[42,24],A3:[56.7,28.8],D7:[44,26],D6:[57,30]}, b:'M3', n:'A4 runs outside 8m arc — A3 follows'},
-      {t:4.8, p:{A4:[35,22],A3:[42,24],A2:[55.7,28.2],D7:[37,24],D6:[44,26],D5:[56,30]}, b:'M3', n:'Cutters using arc as screen'},
-      {t:5.8, p:{A4:[27,25],A3:[35,22],A2:[44,25],D7:[29,27],D6:[37,24],D5:[46,27],G:[35,31]}, b:'M3', n:'A2 peels off — runs outside arc'},
-      {t:6.5, p:{A2:[37,23],D5:[39,25],D6:[35,23],G:[34,30]}, b:'A2', n:'M3 feeds A2 coming around!'},
-      {t:7.5, p:{A2:[35,27],D5:[37,28],G:[35,31]}, b:'A2', n:'A2 finishes'}
+    "id": "tbone",
+    "name": "T-Bone",
+    "sub": "Picket Fence — Stack at GLE",
+    "cat": "stack",
+    "form": "Stack",
+    "desc": "Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.",
+    "coach": "Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.",
+    "dur": 8,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            19.1,
+            20.8
+          ],
+          "M2": [
+            30.1,
+            13.2
+          ],
+          "M3": [
+            41.8,
+            12.8
+          ],
+          "A1": [
+            54,
+            30
+          ],
+          "A2": [
+            54,
+            32
+          ],
+          "A3": [
+            54,
+            34
+          ],
+          "A4": [
+            54,
+            36
+          ],
+          "D1": [
+            50.9,
+            30.7
+          ],
+          "D2": [
+            48.6,
+            31.6
+          ],
+          "D3": [
+            50.4,
+            33.4
+          ],
+          "D7": [
+            41.5,
+            20.4
+          ],
+          "D6": [
+            32.9,
+            20.4
+          ],
+          "D4": [
+            47.7,
+            34.2
+          ],
+          "D5": [
+            21.9,
+            23.8
+          ]
+        },
+        "b": "M1",
+        "n": "Stack set at right GLE"
+      },
+      {
+        "t": 1.2,
+        "p": {
+          "D5": [
+            24.6,
+            25.4
+          ],
+          "D6": [
+            31.5,
+            18.3
+          ]
+        },
+        "b": "M2",
+        "n": "M1 passes to M2"
+      },
+      {
+        "t": 2.2,
+        "p": {
+          "A4": [
+            56,
+            28.7
+          ],
+          "D4": [
+            48.8,
+            29.9
+          ]
+        },
+        "b": "M3",
+        "n": "M2 → M3 — A4 peels off stack"
+      },
+      {
+        "t": 3.5,
+        "p": {
+          "A4": [
+            42,
+            24
+          ],
+          "A3": [
+            56.7,
+            28.8
+          ],
+          "D4": [
+            42.3,
+            26.6
+          ],
+          "D3": [
+            50,
+            29.6
+          ]
+        },
+        "b": "M3",
+        "n": "A4 runs outside 8m arc — A3 follows"
+      },
+      {
+        "t": 4.8,
+        "p": {
+          "A4": [
+            35,
+            22
+          ],
+          "A3": [
+            42,
+            24
+          ],
+          "A2": [
+            55.7,
+            28.2
+          ],
+          "D4": [
+            35.8,
+            24.6
+          ],
+          "D3": [
+            42.5,
+            26.3
+          ]
+        },
+        "b": "M3",
+        "n": "Cutters using arc as screen"
+      },
+      {
+        "t": 5.8,
+        "p": {
+          "A4": [
+            27,
+            25
+          ],
+          "A3": [
+            35,
+            22
+          ],
+          "A2": [
+            44,
+            25
+          ],
+          "D4": [
+            28.4,
+            26.6
+          ],
+          "D3": [
+            35.3,
+            24.6
+          ],
+          "D2": [
+            45.6,
+            27.9
+          ]
+        },
+        "b": "M3",
+        "n": "A2 peels off — runs outside arc"
+      },
+      {
+        "t": 6.5,
+        "p": {
+          "A2": [
+            37,
+            23
+          ],
+          "D2": [
+            39.6,
+            25.6
+          ],
+          "A3": [
+            28.3,
+            23.9
+          ],
+          "A4": [
+            23.1,
+            30.3
+          ],
+          "D4": [
+            27.7,
+            30.7
+          ],
+          "D3": [
+            30.7,
+            25.5
+          ]
+        },
+        "b": "A2",
+        "n": "M3 feeds A2 coming around!"
+      },
+      {
+        "t": 7.5,
+        "p": {
+          "A2": [
+            35,
+            25.9
+          ],
+          "D2": [
+            38.7,
+            26.4
+          ]
+        },
+        "b": "A2",
+        "n": "A2 finishes"
+      },
+      {
+        "t": 8,
+        "p": {},
+        "b": "G"
+      }
     ]
   },
   {
-    id:'mercy', name:'Mercy',
-    sub:'Isolation — Clear Out',
-    cat:'iso', form:'3-2-2',
-    desc:'M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides.',
-    coach:'M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.',
-    dur:7,
-    kf:[
-      {t:0, p:{M1:[19.8,16.6],M2:[30.7,11.3],M3:[47.9,14],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[22,19],D2:[33,14],D3:[50,17],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M2', n:'Ball with M2'},
-      {t:1.2, p:{M2:[38.8,12.4],M1:[34,15],M3:[44.6,12.8],D2:[40,15],D1:[36,18],D3:[46,15]}, b:'M3', n:'M2 passes to M3 — M1 & M2 clear simultaneously'},
-      {t:2.2, p:{M2:[50,18],M1:[44,18],M3:[38.1,13.2],D2:[52,20],D1:[46,20],D3:[40,16]}, b:'M3', n:'M1 & M2 clearing toward A2'},
-      {t:3, p:{M2:[52,22],M1:[48,20],M3:[36.2,19.9],D2:[54,24],D1:[50,22],D3:[38,22]}, b:'M3', n:'Lane wide open — M3 drives!'},
-      {t:4.5, p:{M3:[36.3,27.4],A1:[24,26],D3:[38,28],D4:[24,27],G:[35,31]}, b:'M3', n:'M3 drives through open lane'},
-      {t:5.5, p:{M3:[35.8,25.8],A1:[28,28],D3:[37,27],D4:[30,29],G:[34,30]}, b:'M3', n:'M3 attacks — A1 outlet if slide'},
-      {t:6.5, p:{M3:[36.3,26.4],A1:[30.6,28.1],D3:[37,28],D4:[32,29],G:[33,30]}, b:'A1', n:'M3 finishes or A1 scores on slide'},
-      {t:7, p:{A1:[32.1,30.9],D4:[33,31],G:[34,31]}, b:'A1'}
+    "id": "mercy",
+    "name": "Mercy",
+    "sub": "Isolation — Clear Out",
+    "cat": "iso",
+    "form": "3-2-2",
+    "desc": "M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides.",
+    "coach": "M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.",
+    "dur": 7,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            24,
+            18.6
+          ],
+          "M2": [
+            32.8,
+            15.4
+          ],
+          "M3": [
+            47.5,
+            17.4
+          ],
+          "A1": [
+            17.2,
+            25.2
+          ],
+          "A2": [
+            52.3,
+            27.4
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            48.4,
+            36
+          ],
+          "D6": [
+            25.6,
+            31.9
+          ],
+          "D7": [
+            45.1,
+            32
+          ],
+          "D4": [
+            24,
+            26.1
+          ],
+          "D1": [
+            28,
+            21.9
+          ],
+          "D2": [
+            34,
+            20.4
+          ],
+          "D3": [
+            42.6,
+            22.7
+          ],
+          "D5": [
+            47,
+            27
+          ]
+        },
+        "b": "M2",
+        "n": "Ball with M2"
+      },
+      {
+        "t": 1.2,
+        "p": {
+          "M2": [
+            38.5,
+            15.7
+          ],
+          "M1": [
+            33.6,
+            16.8
+          ],
+          "M3": [
+            43.5,
+            16.2
+          ],
+          "D1": [
+            33.3,
+            20.2
+          ],
+          "D2": [
+            39.3,
+            18.7
+          ],
+          "D3": [
+            43.6,
+            18.9
+          ]
+        },
+        "b": "M3",
+        "n": "M2 passes to M3 — M1 & M2 clear simultaneously"
+      },
+      {
+        "t": 2.2,
+        "p": {
+          "M2": [
+            50,
+            18
+          ],
+          "M1": [
+            44,
+            18
+          ],
+          "M3": [
+            37.2,
+            14.9
+          ],
+          "D2": [
+            45.3,
+            21.9
+          ],
+          "D3": [
+            39.5,
+            18.5
+          ],
+          "D1": [
+            41.6,
+            20.2
+          ]
+        },
+        "b": "M3",
+        "n": "M1 & M2 clearing toward A2"
+      },
+      {
+        "t": 3,
+        "p": {
+          "M2": [
+            52,
+            22
+          ],
+          "M1": [
+            48,
+            20
+          ],
+          "M3": [
+            36.2,
+            19.9
+          ],
+          "D3": [
+            38.6,
+            19.6
+          ],
+          "D1": [
+            44.8,
+            22.6
+          ],
+          "D2": [
+            46.9,
+            25.3
+          ],
+          "D5": [
+            47.3,
+            28.3
+          ],
+          "D4": [
+            28,
+            27
+          ],
+          "A1": [
+            20.2,
+            25.5
+          ]
+        },
+        "b": "M3",
+        "n": "Lane wide open — M3 drives!"
+      },
+      {
+        "t": 4.5,
+        "p": {
+          "M3": [
+            36.2,
+            25
+          ],
+          "A1": [
+            27.6,
+            27.3
+          ],
+          "D4": [
+            33.6,
+            27.3
+          ],
+          "D3": [
+            39.3,
+            23.3
+          ]
+        },
+        "b": "M3",
+        "n": "M3 drives through open lane"
+      },
+      {
+        "t": 5.5,
+        "p": {
+          "M3": [
+            35.8,
+            25.8
+          ],
+          "A1": [
+            28,
+            28
+          ],
+          "D4": [
+            34.1,
+            27.6
+          ],
+          "D3": [
+            38.5,
+            25.4
+          ]
+        },
+        "b": "M3",
+        "n": "M3 attacks — A1 outlet if slide"
+      },
+      {
+        "t": 6.5,
+        "p": {
+          "M3": [
+            36.3,
+            26.4
+          ],
+          "A1": [
+            30.6,
+            28.1
+          ]
+        },
+        "b": "A1",
+        "n": "M3 finishes or A1 scores on slide"
+      },
+      {
+        "t": 7,
+        "p": {
+          "A1": [
+            30.8,
+            28.4
+          ]
+        },
+        "b": "G"
+      }
+    ]
+  },
+  {
+    "id": "play7",
+    "name": "Boston",
+    "sub": "Untitled Concept",
+    "cat": "motion",
+    "form": "3-2-2",
+    "desc": "Weave - A simpler version of the Syracuse. Run this after Nike.",
+    "coach": "",
+    "dur": 6,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            21.9,
+            15.4
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            22.9,
+            31.1
+          ],
+          "A2": [
+            52,
+            24
+          ],
+          "A3": [
+            24,
+            32.2
+          ],
+          "A4": [
+            21.9,
+            32.2
+          ],
+          "D1": [
+            26.9,
+            22.1
+          ],
+          "D2": [
+            35.9,
+            20.1
+          ],
+          "D3": [
+            43.4,
+            23.3
+          ],
+          "D4": [
+            23.4,
+            27.9
+          ],
+          "D5": [
+            45.8,
+            28
+          ],
+          "D6": [
+            27.5,
+            31.9
+          ],
+          "D7": [
+            42.7,
+            31.4
+          ],
+          "G": [
+            35,
+            32.8
+          ]
+        },
+        "b": "M2",
+        "n": "Starting formation"
+      },
+      {
+        "t": 1.5,
+        "p": {
+          "M1": [
+            30.5,
+            14.3
+          ],
+          "M2": [
+            27.3,
+            12.6
+          ],
+          "D2": [
+            30,
+            19.7
+          ],
+          "D1": [
+            32,
+            19.8
+          ],
+          "A3": [
+            27.5,
+            28.7
+          ]
+        },
+        "b": "M1"
+      },
+      {
+        "t": 2.25,
+        "p": {
+          "M2": [
+            22.1,
+            16.8
+          ],
+          "M1": [
+            37,
+            13.1
+          ],
+          "M3": [
+            37,
+            15.1
+          ],
+          "D3": [
+            36.7,
+            19.1
+          ],
+          "D1": [
+            39.2,
+            18.1
+          ],
+          "D2": [
+            25.1,
+            21.1
+          ],
+          "A3": [
+            25.2,
+            33.5
+          ],
+          "A4": [
+            26.5,
+            29.3
+          ]
+        },
+        "b": "M1",
+        "n": "M1 Fake Flip to M3"
+      },
+      {
+        "t": 2.81,
+        "p": {
+          "M1": [
+            39.1,
+            26.1
+          ],
+          "M3": [
+            31.4,
+            24.7
+          ],
+          "A4": [
+            24.4,
+            33.2
+          ],
+          "A2": [
+            48.8,
+            28.4
+          ],
+          "D1": [
+            38.1,
+            25.1
+          ],
+          "D3": [
+            33.6,
+            23.8
+          ],
+          "M2": [
+            22.5,
+            17
+          ],
+          "D2": [
+            25.5,
+            21
+          ],
+          "A1": [
+            25.9,
+            29.9
+          ],
+          "A3": [
+            23.1,
+            32.2
+          ]
+        },
+        "b": "M1",
+        "n": "M1 Shot, or A2 Outlet"
+      },
+      {
+        "t": 3.1,
+        "p": {
+          "M1": [
+            38,
+            27.5
+          ],
+          "M3": [
+            29.9,
+            29.1
+          ],
+          "D1": [
+            37.6,
+            25.6
+          ],
+          "D3": [
+            32.3,
+            29.2
+          ],
+          "A1": [
+            24.8,
+            33.6
+          ],
+          "A3": [
+            25.9,
+            30.1
+          ],
+          "A4": [
+            22.7,
+            32.1
+          ]
+        },
+        "b": "M1"
+      },
+      {
+        "t": 4,
+        "p": {},
+        "b": "G"
+      }
     ]
   }
 ];
@@ -1186,5 +2740,6 @@ if(hadSavedEdits){
   if(st){st.textContent='Restored unsaved edits';setTimeout(()=>{st.textContent=''},3000)}
 }
 </script>
-</body>
-</html>
+
+
+</body></html>
