@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ossining Lacrosse Playbook</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f1419;color:#e8e8e8;display:flex;height:100vh;overflow:hidden}
+
+/* Sidebar */
+.sidebar{width:260px;background:#1a1f2e;border-right:1px solid #2a3040;display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-header{padding:20px;border-bottom:1px solid #2a3040;background:linear-gradient(135deg,#1a1f2e,#252b3b)}
+.sidebar-header h1{font-size:18px;color:#FFD700;font-weight:700;letter-spacing:0.5px}
+.sidebar-header p{font-size:12px;color:#888;margin-top:4px}
+.cat-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px;border-bottom:1px solid #2a3040}
+.cat-tab{padding:4px 10px;border-radius:12px;font-size:11px;cursor:pointer;background:#252b3b;color:#aaa;border:1px solid transparent;transition:all .2s;user-select:none}
+.cat-tab:hover{color:#FFD700;border-color:#FFD700}
+.cat-tab.active{background:#FFD700;color:#1a1f2e;font-weight:600}
+.play-list{flex:1;overflow-y:auto;padding:8px}
+.play-item{padding:12px;border-radius:8px;cursor:pointer;margin-bottom:4px;transition:all .2s;border-left:3px solid transparent}
+.play-item:hover{background:#252b3b}
+.play-item.active{background:#2a3550;border-left-color:#FFD700}
+.play-name{font-size:14px;font-weight:600}
+.play-concept{font-size:11px;color:#888;margin-top:2px}
+.play-cat{display:inline-block;font-size:10px;color:#FFD700;background:#2a3040;padding:2px 6px;border-radius:4px;margin-top:4px}
+
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.field-container{flex:1;display:flex;align-items:center;justify-content:center;padding:16px;min-height:0}
+.field-wrapper{position:relative;display:inline-block;line-height:0}
+canvas#field{border-radius:10px;display:block}
+.annotation-box{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#FFD700;padding:6px 18px;border-radius:8px;font-size:13px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .3s;white-space:nowrap;border:1px solid rgba(255,215,0,.3)}
+.annotation-box.visible{opacity:1}
+
+/* Controls */
+.controls{padding:10px 20px;background:#1a1f2e;border-top:1px solid #2a3040;display:flex;align-items:center;gap:12px}
+.ctrl-btn{width:36px;height:36px;border-radius:50%;border:none;background:#252b3b;color:#e8e8e8;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s}
+.ctrl-btn:hover{background:#FFD700;color:#1a1f2e}
+.scrubber{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:#252b3b;outline:none;cursor:pointer}
+.scrubber::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#FFD700;cursor:pointer}
+.scrubber::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#FFD700;cursor:pointer;border:none}
+.speed-sel{background:#252b3b;color:#e8e8e8;border:1px solid #2a3040;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer}
+.tog-paths{font-size:12px;color:#aaa;cursor:pointer;display:flex;align-items:center;gap:4px;user-select:none}
+.tog-paths input{accent-color:#FFD700}
+.time-disp{font-size:12px;color:#888;min-width:44px;text-align:center}
+
+/* Details */
+.details{padding:14px 20px;background:#151a25;border-top:1px solid #2a3040;max-height:175px;overflow-y:auto}
+.details h2{font-size:16px;color:#FFD700;margin-bottom:4px}
+.details .sub{font-size:13px;color:#aaa;margin-bottom:8px}
+.details .form-tag{display:inline-block;font-size:11px;background:#2a3040;color:#FFD700;padding:2px 8px;border-radius:4px;margin-bottom:8px}
+.details p{font-size:13px;line-height:1.5;color:#ccc;margin-bottom:4px}
+.details .coach{font-size:12px;color:#999;border-left:2px solid #FFD700;padding-left:10px;margin-top:8px;line-height:1.5}
+
+/* Edit Mode */
+.edit-toggle{padding:4px 12px;border-radius:6px;border:1px solid #555;background:transparent;color:#aaa;font-size:12px;cursor:pointer;transition:all .2s}
+.edit-toggle:hover{border-color:#FFD700;color:#FFD700}
+.edit-toggle.active{background:#FFD700;color:#1a1f2e;border-color:#FFD700;font-weight:600}
+.edit-bar{padding:8px 20px;background:#1e2433;border-top:1px solid #2a3040;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.eb{padding:4px 10px;border-radius:5px;border:1px solid #2a3040;background:#252b3b;color:#ccc;font-size:11px;cursor:pointer;transition:all .2s}
+.eb:hover{border-color:#FFD700;color:#FFD700}
+.eb-danger{border-color:#633;color:#f88}
+.eb-danger:hover{border-color:#f44;color:#f44}
+.eb-gold{border-color:#FFD700;color:#FFD700}
+.eb-gold:hover{background:#FFD700;color:#1a1f2e}
+.eb-sep{width:1px;height:20px;background:#2a3040;margin:0 4px}
+.eb-lbl{font-size:11px;color:#888;display:flex;align-items:center;gap:4px}
+.eb-sel{background:#252b3b;color:#e8e8e8;border:1px solid #2a3040;border-radius:4px;padding:2px 6px;font-size:11px}
+.eb-input{background:#252b3b;color:#e8e8e8;border:1px solid #2a3040;border-radius:4px;padding:3px 8px;font-size:11px;width:180px}
+.eb-input:focus,.eb-sel:focus{outline:none;border-color:#FFD700}
+.kf-label{font-size:12px;color:#FFD700;font-weight:600;min-width:90px;text-align:center}
+
+/* New Play & Delete Play */
+.new-play-btn{display:block;margin:8px;padding:10px;border-radius:8px;border:2px dashed #2a3040;background:transparent;color:#888;font-size:13px;cursor:pointer;transition:all .2s;text-align:center;width:calc(100% - 16px)}
+.new-play-btn:hover{border-color:#FFD700;color:#FFD700}
+.del-play-btn{padding:4px 10px;border-radius:5px;border:1px solid #633;background:#252b3b;color:#f88;font-size:11px;cursor:pointer;transition:all .2s}
+.del-play-btn:hover{border-color:#f44;color:#f44;background:#3a1a1a}
+
+/* Meta editor */
+.meta-edit{padding:14px 20px;background:#151a25;border-top:1px solid #2a3040;max-height:220px;overflow-y:auto}
+.meta-edit label{display:block;font-size:11px;color:#888;margin-bottom:2px;margin-top:8px}
+.meta-edit label:first-child{margin-top:0}
+.meta-edit input,.meta-edit select,.meta-edit textarea{width:100%;background:#252b3b;color:#e8e8e8;border:1px solid #2a3040;border-radius:4px;padding:5px 8px;font-size:12px;font-family:inherit}
+.meta-edit textarea{resize:vertical;min-height:36px}
+.meta-edit input:focus,.meta-edit select:focus,.meta-edit textarea:focus{outline:none;border-color:#FFD700}
+.meta-row{display:flex;gap:8px}
+.meta-row>div{flex:1}
+
+@media(max-width:900px){
+  body{flex-direction:column}
+  .sidebar{width:100%;height:auto;max-height:180px;flex-direction:row;flex-wrap:wrap}
+  .sidebar-header{display:none}
+  .cat-tabs{width:100%}
+  .play-list{display:flex;overflow-x:auto;overflow-y:hidden;padding:6px}
+  .play-item{min-width:140px;flex-shrink:0}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h1>Ossining</h1>
+    <p>Women's Lacrosse Playbook</p>
+  </div>
+  <div class="cat-tabs" id="catTabs">
+    <div class="cat-tab active" data-cat="all">All</div>
+    <div class="cat-tab" data-cat="settled">Settled</div>
+    <div class="cat-tab" data-cat="motion">Motion</div>
+    <div class="cat-tab" data-cat="stack">Stack</div>
+    <div class="cat-tab" data-cat="iso">ISO</div>
+  </div>
+  <div class="play-list" id="playList"></div>
+  <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
+</div>
+
+<div class="main">
+  <div class="field-container">
+    <div class="field-wrapper">
+      <canvas id="field" width="700" height="520"></canvas>
+      <div class="annotation-box" id="annoBox"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="ctrl-btn" id="resetBtn" title="Reset">&#9198;</button>
+    <button class="ctrl-btn" id="playBtn" title="Play / Pause">&#9654;</button>
+    <span class="time-disp" id="timeDisp">0.0s</span>
+    <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
+    <select class="speed-sel" id="speedSel">
+      <option value="0.5">0.5x</option>
+      <option value="1" selected>1x</option>
+      <option value="1.5">1.5x</option>
+      <option value="2">2x</option>
+    </select>
+    <label class="tog-paths"><input type="checkbox" id="showPaths" checked> Paths</label>
+    <label class="tog-paths"><input type="checkbox" id="showOff" checked> Off</label>
+    <label class="tog-paths"><input type="checkbox" id="showDef" checked> Def</label>
+    <button class="edit-toggle" id="editToggle">Edit</button>
+  </div>
+  <div class="edit-bar" id="editBar" style="display:none">
+    <button class="eb" id="ebPrev" title="Previous keyframe">&laquo; Prev</button>
+    <span class="kf-label" id="kfLabel">KF 1 / 1</span>
+    <button class="eb" id="ebNext" title="Next keyframe">Next &raquo;</button>
+    <div class="eb-sep"></div>
+    <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
+    <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">&times; Del KF</button>
+    <div class="eb-sep"></div>
+    <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"></select></span>
+    <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
+    <div class="eb-sep"></div>
+    <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
+    <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
+    <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
+  </div>
+  <div class="details" id="details">
+    <h2>Select a Play</h2>
+    <p>Click a play from the sidebar to begin.</p>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  FIELD CONSTANTS  (in yards, y increases downward on screen)
+// ============================================================
+const FW = 70;          // field width
+const FH = 44;          // visible depth (restraining → past endline)
+const GX = 35, GY = 32; // goal centre
+const RLINE_Y = 2;      // restraining line
+const ELINE_Y = 42;     // end line
+const R8 = 8.75;        // 8-metre arc  (yards)
+const R12 = 13.12;      // 12-metre fan (yards)
+const RGC = 2.84;       // goal-circle radius
+const GHW = 1;          // goal half-width
+const GD  = 1.2;        // goal depth (net)
+
+// ============================================================
+//  BASE 3-2-2 FORMATION
+// ============================================================
+const BASE = {
+  M1:[22,15], M2:[35,12], M3:[48,15],
+  A1:[18,24], A2:[52,24],
+  A3:[22,37], A4:[48,37]
+};
+const OFF_ROLES = Object.keys(BASE);
+
+// Defenders: man-to-man shadow positions (slightly goalside)
+const BASE_DEF = {
+  D1:[24,18], D2:[35,16], D3:[46,18],
+  D4:[21,27], D5:[49,27],
+  D6:[25,35], D7:[45,35],
+  G:[35,32.8]
+};
+const DEF_ROLES = Object.keys(BASE_DEF);
+const ALL_ROLES = [...OFF_ROLES, ...DEF_ROLES];
+const ROLES = OFF_ROLES; // backward compat for ball carrier etc
+
+// ============================================================
+//  PLAY DATA
+// ============================================================
+const PLAYS = [
+  {
+    id:'skittles', name:'Skittles',
+    sub:'Pass Down, Pick Down — Pick & Roll',
+    cat:'settled', form:'3-2-2',
+    desc:'Ball starts with A2 and goes to A4 at GLE. A2 comes down to set a pick for A4 just above GLE. A4 uses the pick by running to the outside past A2. If defenders leave A2 to double A4, A2 rolls to goal. This is a 2-man game between A4 and A2.',
+    coach:'A2 must be set (feet planted) before contact. A4 runs outside the pick toward the sideline. A2 reads the defense — if they leave you to double, roll hard to goal for the pass. 2-man game: A4 and A2 read and react together.',
+    dur:7,
+    kf:[
+      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[46.3,36.6],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[48,39],G:[35,32.8]}, b:'A2', n:'Formation — ball with A2'},
+      {t:1.2, p:{A4:[47.5,33.5],A2:[50.9,25.6],D5:[52,27],D7:[49,35]}, b:'A4', n:'A2 passes to A4 at GLE'},
+      {t:2.5, p:{A2:[48.3,29.6],A4:[49,30.3],D5:[50,31],D7:[50,32]}, b:'A4', n:'A2 moves down to set pick above GLE'},
+      {t:3.2, p:{A2:[47.5,30.4],A4:[46.9,26],D5:[49,32],D7:[48.5,29]}, b:'A4', n:'Pick is set!'},
+      {t:4.2, p:{A4:[42.2,24.6],A2:[47.3,30.6],D5:[46,28],D7:[47,30]}, b:'A4', n:'A4 drives outside off pick'},
+      {t:5.2, p:{A4:[38.9,25],A2:[45.7,31.3],D5:[42,28],D7:[46,31],D4:[22,28],G:[35,31]}, b:'A4', n:'A4 drives to goal — A2 rolls'},
+      {t:6.2, p:{A4:[34.1,25.5],A2:[40.1,30.1],D5:[38,27],D7:[42,30],G:[34,30]}, b:'A4', n:'A4 scores or feeds A2 if defense leaves her open'},
+      {t:6.7, p:{D5:[40,30],G:[35,31]}, b:'A2', n:'A2 scores'}
+    ]
+  },
+  {
+    id:'nike', name:'Nike',
+    sub:'Ball Reversal \u2014 Settle the Offense',
+    cat:'settled', form:'3-2-2',
+    desc:'Pass the ball all the way around the formation to settle after transition, shift the defense, and set up the next play call.',
+    coach:'All passes should be quick and sharp \u2014 no slow loopy passes. Players maintain spacing throughout. This is a setup play, not a scoring play.',
+    dur:8,
+    kf:[
+      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M1', n:'Ball starts with M1'},
+      {t:1, p:{D2:[36,14],D1:[25,17]}, b:'M2', n:'M1 \u2192 M2'},
+      {t:2, p:{D3:[49,16],D2:[37,16]}, b:'M3', n:'M2 \u2192 M3'},
+      {t:3, p:{D5:[53,25],D3:[50,18]}, b:'A2', n:'M3 \u2192 A2'},
+      {t:4, p:{D7:[49,38],D5:[53,27]}, b:'A4', n:'A2 \u2192 A4'},
+      {t:5, p:{D6:[24,38],D7:[49,39]}, b:'A3', n:'A4 \u2192 A3'},
+      {t:6, p:{D4:[20,26],D6:[24,39]}, b:'A1', n:'A3 \u2192 A1'},
+      {t:7, p:{D1:[24,17],D4:[20,27]}, b:'M1', n:'A1 \u2192 M1 \u2014 reset complete'}
+    ]
+  },
+  {
+    id:'syracuse', name:'Syracuse',
+    sub:'Weave — Pass or Screen',
+    cat:'motion', form:'3-2-2',
+    desc:'M1 carries ball and weaves with M2 simultaneously. Ball moves through M3, A1, A2 via passes or screens. All players move toward the ball when catching. After completing their weave, M2 replaces A1 and M1 replaces A2 to keep motion going. Drive to goal when you have a lane.',
+    coach:'Every exchange can be a pass or a screen. All players move TOWARD the ball. After your weave, keep running to replace the next player down — M2 fills A1’s spot, M1 fills A2’s. Constant motion unsettles the defense. Drive the moment a lane opens.',
+    dur:9,
+    kf:[
+      {t:0, p:{M1:[20.9,13.9],M2:[35,13.9],M3:[48,15],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[23,17],D2:[37,17],D3:[50,18],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M1', n:'Ball with M1'},
+      {t:1.5, p:{M1:[35.3,12.9],M2:[23.8,15.7],A1:[20.4,18.2],D1:[30,16],D2:[28,18]}, b:'M1', n:'M1 & M2 weave — M1 carries right'},
+      {t:2.5, p:{M3:[37.4,12.3],M1:[42,15.1],M2:[20,18],A1:[26.2,14.2],A2:[50.7,19.1],D3:[40,15],D1:[38,17],D2:[23,20],D4:[22,22],D5:[52,22]}, b:'M3', n:'M1 to M3 moving toward ball'},
+      {t:3.15, p:{A1:[30.6,12.6],A2:[47.9,16.4],M1:[44.9,16.6],D4:[28,16],D5:[49,19]}, b:'M3'},
+      {t:3.8, p:{M3:[28,18],A1:[37.8,15.7],M2:[18,23],M1:[49.8,20.1],A2:[43.7,14.4],D3:[31,20],D4:[35,18],D2:[20,24],D1:[48,22],D5:[45,17]}, b:'A1', n:'M3 to A1 — A1 moves toward ball'},
+      {t:5, p:{A1:[43.5,18.5],A2:[35.8,15.3],M2:[18,24],M1:[52,24],D5:[38,18],D4:[40,21],D2:[20,26],D1:[54,27]}, b:'A2', n:'A1 to A2 — M2 replaces A1, M1 replaces A2'},
+      {t:6.2, p:{A2:[32.7,24.8],M2:[18,24],M1:[52,24],A1:[42,26.7],D5:[35,26],D4:[40,28],G:[35,31]}, b:'A2', n:'A2 sees lane — drives!'},
+      {t:7.5, p:{A2:[31,27.9],A1:[40.4,28.6],D5:[33,28],G:[34,30]}, b:'A2', n:'A2 attacks goal'},
+      {t:8.5, p:{A2:[35,31],D5:[35,31],G:[35,31]}, b:'A2', n:'A2 finishes — motion kept defense unsettled'}
+    ]
+  },
+  {
+    id:'carolina', name:'Carolina',
+    sub:'Attack Wheel — CCW Cycle',
+    cat:'motion', form:'3-2-2',
+    desc:'A2 starts by cutting through the 8m and around the goal. A4 has the ball and drives CCW on goal, passes back to A3 who is following. A3 drives on goal and passes back to A2 who has cycled around. Pattern repeats 3 times.',
+    coach:'CCW favors right-handed players. Drive hard around the crease. If you can’t beat your defender, pass back to the attacker following you. The wheel repeats — drive and score, or give-and-go on the pass back. Keep the cycle moving.',
+    dur:12,
+    kf:[
+      {t:0, p:{M1:[22,15],M2:[35,12],M3:[48,15],A1:[18,24],A2:[50.9,27.9],A3:[22,37],A4:[41.2,37.6],D1:[24,18],D2:[37,15],D3:[50,18],D4:[20,27],D5:[52,30],D6:[24,39],D7:[43,39],G:[35,32.8]}, b:'A4', n:'A4 has ball — A2 cuts through 8m'},
+      {t:1, p:{A2:[34.4,26.4],A4:[43.6,31.5],A3:[28.5,39],D5:[36,28],D7:[45,33]}, b:'A4', n:'A2 cutting through 8m — A4 drives CCW'},
+      {t:2, p:{A4:[37.6,27.6],A2:[24,32],A3:[42,38],D7:[39,29],D5:[26,34],G:[35,31]}, b:'A4', n:'A4 drives on goal'},
+      {t:3, p:{A4:[32.2,27.1],A2:[28.1,36.1],A3:[42.9,35],D7:[34,29],D6:[44,37],D5:[30,38]}, b:'A3', n:'A4 passes back to A3 on right'},
+      {t:4.5, p:{A3:[37.6,26.8],A4:[26.9,35.7],A2:[41.2,37],D6:[39,28],D7:[29,37],D5:[43,39],G:[34,30]}, b:'A3', n:'A3 drives on goal CCW'},
+      {t:5.5, p:{A3:[32.7,26.5],A4:[33.1,38.5],A2:[42.3,34.9],D6:[34,28],D5:[44,37],D7:[35,40]}, b:'A2', n:'A3 passes back to A2 on right'},
+      {t:7, p:{A2:[38,26.4],A3:[29.6,36.9],A4:[42.5,37.2],D5:[40,28],D6:[31,38],D7:[44,39],G:[35,30]}, b:'A2', n:'A2 drives on goal — cycle 2'},
+      {t:8, p:{A2:[36.1,26.4],A3:[30.8,36.8],A4:[42.2,35.4],D5:[38,28],D7:[44,37],D6:[32,38]}, b:'A4', n:'A2 passes back to A4 on right'},
+      {t:9.5, p:{A4:[42.8,31.6],A2:[34.9,27],A3:[35.1,38.9],D7:[44,33],D5:[37,29],G:[34,30]}, b:'A2', n:'A4 feeds back to A2  give and go'},
+      {t:11, p:{A4:[41.2,30.6],A3:[33.6,39.5],A2:[33.8,30.5],D5:[36,31],D7:[43,32],G:[34,31]}, b:'A2', n:'A2 Shoots'}
+    ]
+  },
+  {
+    id:'tbone', name:'T-Bone',
+    sub:'Picket Fence — Stack at GLE',
+    cat:'stack', form:'Stack',
+    desc:'Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.',
+    coach:'Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.',
+    dur:8,
+    kf:[
+      {t:0, p:{M1:[15,14],M2:[28,12],M3:[40,14],A1:[54,30],A2:[54,32],A3:[54,34],A4:[54,36],D1:[17,17],D2:[30,15],D3:[42,17],D4:[56,31],D5:[56,33],D6:[56,35],D7:[56,37],G:[35,32.8]}, b:'M1', n:'Stack set at right GLE'},
+      {t:1.2, p:{D2:[30,14],D1:[18,16]}, b:'M2', n:'M1 passes to M2'},
+      {t:2.2, p:{A4:[56,28.7],D7:[57,30],D3:[42,16]}, b:'M3', n:'M2 → M3 — A4 peels off stack'},
+      {t:3.5, p:{A4:[42,24],A3:[56.7,28.8],D7:[44,26],D6:[57,30]}, b:'M3', n:'A4 runs outside 8m arc — A3 follows'},
+      {t:4.8, p:{A4:[35,22],A3:[42,24],A2:[55.7,28.2],D7:[37,24],D6:[44,26],D5:[56,30]}, b:'M3', n:'Cutters using arc as screen'},
+      {t:5.8, p:{A4:[27,25],A3:[35,22],A2:[44,25],D7:[29,27],D6:[37,24],D5:[46,27],G:[35,31]}, b:'M3', n:'A2 peels off — runs outside arc'},
+      {t:6.5, p:{A2:[37,23],D5:[39,25],D6:[35,23],G:[34,30]}, b:'A2', n:'M3 feeds A2 coming around!'},
+      {t:7.5, p:{A2:[35,27],D5:[37,28],G:[35,31]}, b:'A2', n:'A2 finishes'}
+    ]
+  },
+  {
+    id:'mercy', name:'Mercy',
+    sub:'Isolation — Clear Out',
+    cat:'iso', form:'3-2-2',
+    desc:'M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides.',
+    coach:'M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.',
+    dur:7,
+    kf:[
+      {t:0, p:{M1:[19.8,16.6],M2:[30.7,11.3],M3:[47.9,14],A1:[18,24],A2:[52,24],A3:[22,37],A4:[48,37],D1:[22,19],D2:[33,14],D3:[50,17],D4:[20,27],D5:[54,27],D6:[24,39],D7:[50,39],G:[35,32.8]}, b:'M2', n:'Ball with M2'},
+      {t:1.2, p:{M2:[38.8,12.4],M1:[34,15],M3:[44.6,12.8],D2:[40,15],D1:[36,18],D3:[46,15]}, b:'M3', n:'M2 passes to M3 — M1 & M2 clear simultaneously'},
+      {t:2.2, p:{M2:[50,18],M1:[44,18],M3:[38.1,13.2],D2:[52,20],D1:[46,20],D3:[40,16]}, b:'M3', n:'M1 & M2 clearing toward A2'},
+      {t:3, p:{M2:[52,22],M1:[48,20],M3:[36.2,19.9],D2:[54,24],D1:[50,22],D3:[38,22]}, b:'M3', n:'Lane wide open — M3 drives!'},
+      {t:4.5, p:{M3:[36.3,27.4],A1:[24,26],D3:[38,28],D4:[24,27],G:[35,31]}, b:'M3', n:'M3 drives through open lane'},
+      {t:5.5, p:{M3:[35.8,25.8],A1:[28,28],D3:[37,27],D4:[30,29],G:[34,30]}, b:'M3', n:'M3 attacks — A1 outlet if slide'},
+      {t:6.5, p:{M3:[36.3,26.4],A1:[30.6,28.1],D3:[37,28],D4:[32,29],G:[33,30]}, b:'A1', n:'M3 finishes or A1 scores on slide'},
+      {t:7, p:{A1:[32.1,30.9],D4:[33,31],G:[34,31]}, b:'A1'}
+    ]
+  }
+];
+
+// ============================================================
+//  STATE
+// ============================================================
+let curPlay = null, playing = false, curTime = 0, lastTS = null, speed = 1, pathsOn = true, showOff = true, showDef = true;
+
+// ============================================================
+//  CANVAS
+// ============================================================
+const cvs = document.getElementById('field');
+const ctx = cvs.getContext('2d');
+
+function resize(){
+  const c = document.querySelector('.field-container');
+  const mw = c.clientWidth-32, mh = c.clientHeight-32;
+  const asp = FW/FH;
+  let w,h;
+  if(mw/mh>asp){h=mh;w=h*asp}else{w=mw;h=w/asp}
+  cvs.width=Math.floor(w); cvs.height=Math.floor(h);
+  draw();
+}
+
+function tx(x,y){const s=cvs.width/FW;return[x*s,y*s]}
+function tr(r){return r*(cvs.width/FW)}
+
+// ============================================================
+//  DRAW FIELD
+// ============================================================
+function drawField(){
+  const w=cvs.width, h=cvs.height;
+  // grass
+  const grad=ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,'#2a6e2e');grad.addColorStop(0.5,'#2d7a30');grad.addColorStop(1,'#256628');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  // stripes
+  ctx.fillStyle='rgba(255,255,255,0.025)';
+  for(let i=0;i<FH;i+=3){const[,y1]=tx(0,i);const[,y2]=tx(0,i+1.5);ctx.fillRect(0,y1,w,y2-y1)}
+
+  ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1.5;
+
+  // restraining line
+  let[rx1,ry]=tx(0,RLINE_Y),[rx2]=tx(FW,RLINE_Y);
+  ctx.beginPath();ctx.moveTo(rx1,ry);ctx.lineTo(rx2,ry);ctx.stroke();
+
+  // end line
+  let[ex1,ey]=tx(0,ELINE_Y),[ex2]=tx(FW,ELINE_Y);
+  ctx.beginPath();ctx.moveTo(ex1,ey);ctx.lineTo(ex2,ey);ctx.stroke();
+
+  // side lines
+  const[s1x,s1y]=tx(0,RLINE_Y),[,s2y]=tx(0,ELINE_Y);
+  ctx.beginPath();ctx.moveTo(s1x,s1y);ctx.lineTo(s1x,s2y);ctx.stroke();
+  const[s3x]=tx(FW,0);
+  ctx.beginPath();ctx.moveTo(s3x,s1y);ctx.lineTo(s3x,s2y);ctx.stroke();
+
+  // GLE dashed
+  ctx.save();ctx.setLineDash([5,5]);ctx.strokeStyle='rgba(255,255,255,0.2)';
+  let[gl1,gly]=tx(0,GY),[gl2]=tx(FW,GY);
+  ctx.beginPath();ctx.moveTo(gl1,gly);ctx.lineTo(gl2,gly);ctx.stroke();
+  ctx.restore();
+
+  const[gcx,gcy]=tx(GX,GY);
+
+  // 12m fan
+  ctx.strokeStyle='rgba(255,255,255,0.4)';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.arc(gcx,gcy,tr(R12),Math.PI,2*Math.PI);ctx.stroke();
+
+  // 8m arc
+  ctx.strokeStyle='rgba(255,255,255,0.6)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(gcx,gcy,tr(R8),Math.PI,2*Math.PI);ctx.stroke();
+
+  // hash marks
+  const hLen=tr(0.7);
+  for(let i=0;i<7;i++){
+    const a=Math.PI+(Math.PI*(i+0.5))/7;
+    const hx=gcx+Math.cos(a)*tr(R8), hy=gcy+Math.sin(a)*tr(R8);
+    const dx=Math.cos(a)*hLen, dy=Math.sin(a)*hLen;
+    ctx.beginPath();ctx.moveTo(hx-dx,hy-dy);ctx.lineTo(hx+dx,hy+dy);ctx.stroke();
+  }
+
+  // goal circle
+  ctx.strokeStyle='rgba(255,255,255,0.35)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(gcx,gcy,tr(RGC),0,2*Math.PI);ctx.stroke();
+
+  // goal
+  const gw=tr(GHW), gd=tr(GD);
+  ctx.strokeStyle='rgba(255,255,255,0.8)';ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(gcx-gw,gcy);ctx.lineTo(gcx-gw,gcy+gd);ctx.lineTo(gcx+gw,gcy+gd);ctx.lineTo(gcx+gw,gcy);ctx.stroke();
+  // net
+  ctx.strokeStyle='rgba(255,255,255,0.15)';ctx.lineWidth=.5;
+  for(let i=1;i<4;i++){const nx=gcx-gw+(2*gw*i)/4;ctx.beginPath();ctx.moveTo(nx,gcy);ctx.lineTo(nx,gcy+gd);ctx.stroke()}
+  for(let i=1;i<3;i++){const ny=gcy+(gd*i)/3;ctx.beginPath();ctx.moveTo(gcx-gw,ny);ctx.lineTo(gcx+gw,ny);ctx.stroke()}
+
+  // labels
+  ctx.fillStyle='rgba(255,255,255,0.25)';ctx.textAlign='center';ctx.textBaseline='bottom';
+  ctx.font=`${tr(1.1)}px sans-serif`;
+  const[,rly]=tx(35,RLINE_Y-0.5);
+  ctx.fillText('Restraining Line',cvs.width/2,rly);
+  ctx.font=`${tr(0.85)}px sans-serif`;
+  ctx.textBaseline='middle';
+  const[l8x,l8y]=tx(GX+R8+2,GY-R8*0.55);ctx.fillText('8m',l8x,l8y);
+  const[l12x,l12y]=tx(GX+R12+2,GY-R12*0.55);ctx.fillText('12m',l12x,l12y);
+}
+
+// ============================================================
+//  POSITION HELPERS
+// ============================================================
+function resolved(play,idx){
+  const r={};
+  for(const k of OFF_ROLES) r[k]=[...BASE[k]];
+  for(const k of DEF_ROLES) r[k]=[...BASE_DEF[k]];
+  for(let i=0;i<=idx;i++){
+    for(const[k,v] of Object.entries(play.kf[i].p)) r[k]=[...v];
+  }
+  return r;
+}
+
+function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2}
+
+function posAt(play,t){
+  const kf=play.kf;
+  if(t<=kf[0].t) return resolved(play,0);
+  if(t>=kf[kf.length-1].t) return resolved(play,kf.length-1);
+  let i=0;
+  while(i<kf.length-1 && kf[i+1].t<=t) i++;
+  const p1=resolved(play,i), p2=resolved(play,i+1);
+  const prog=ease((t-kf[i].t)/(kf[i+1].t-kf[i].t));
+  const r={};
+  for(const k of ALL_ROLES){
+    if(p1[k]&&p2[k]){
+      r[k]=[p1[k][0]+(p2[k][0]-p1[k][0])*prog, p1[k][1]+(p2[k][1]-p1[k][1])*prog];
+    }
+  }
+  return r;
+}
+
+function ballAt(play,t){
+  const kf=play.kf;
+  if(t<=kf[0].t) return{c:kf[0].b};
+  if(t>=kf[kf.length-1].t) return{c:kf[kf.length-1].b};
+  let i=0;
+  while(i<kf.length-1 && kf[i+1].t<=t) i++;
+  const prog=(t-kf[i].t)/(kf[i+1].t-kf[i].t);
+  if(kf[i].b!==kf[i+1].b && prog<0.45){
+    return{pass:true,from:kf[i].b,to:kf[i+1].b,prog:prog/0.45};
+  }
+  return{c:prog<0.45?kf[i].b:kf[i+1].b};
+}
+
+function noteAt(play,t){
+  let n='';
+  for(const k of play.kf) if(k.t<=t+0.15 && k.n) n=k.n;
+  return n;
+}
+
+// ============================================================
+//  DRAW PATHS
+// ============================================================
+function drawPaths(play,t){
+  if(!pathsOn||!play) return;
+  for(const role of ALL_ROLES){
+    const isDefRole=DEF_ROLES.includes(role);
+    if(isDefRole && !showDef) continue;
+    if(!isDefRole && !showOff) continue;
+    const pts=[];
+    for(let i=0;i<play.kf.length;i++){
+      if(play.kf[i].t>t+0.5) break;
+      const r=resolved(play,i);
+      pts.push(tx(r[role][0],r[role][1]));
+    }
+    // also add current interpolated position
+    const cur=posAt(play,t);
+    pts.push(tx(cur[role][0],cur[role][1]));
+
+    if(pts.length<2) continue;
+    // check if player actually moved
+    const dx=pts[pts.length-1][0]-pts[0][0], dy=pts[pts.length-1][1]-pts[0][1];
+    if(Math.abs(dx)<2&&Math.abs(dy)<2) continue;
+
+    const pathColor=isDefRole?'rgba(220,80,80,0.3)':'rgba(255,215,0,0.3)';
+    const arrowColor=isDefRole?'rgba(220,80,80,0.4)':'rgba(255,215,0,0.4)';
+    ctx.save();
+    ctx.strokeStyle=pathColor;
+    ctx.lineWidth=2;
+    ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+    for(let j=1;j<pts.length;j++) ctx.lineTo(pts[j][0],pts[j][1]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // arrowhead at last segment
+    if(pts.length>=2){
+      const L=pts[pts.length-1],P=pts[pts.length-2];
+      const ang=Math.atan2(L[1]-P[1],L[0]-P[0]);
+      const sz=7;
+      ctx.fillStyle=arrowColor;
+      ctx.beginPath();
+      ctx.moveTo(L[0],L[1]);
+      ctx.lineTo(L[0]-sz*Math.cos(ang-.45),L[1]-sz*Math.sin(ang-.45));
+      ctx.lineTo(L[0]-sz*Math.cos(ang+.45),L[1]-sz*Math.sin(ang+.45));
+      ctx.closePath();ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+// ============================================================
+//  DRAW PLAYERS & BALL
+// ============================================================
+function drawPlayers(pos,bi){
+  const pr=tr(1.2), ballR=tr(0.45);
+
+  // draw pass line first
+  let bx,by;
+  if(bi.pass){
+    const fp=pos[bi.from],tp=pos[bi.to];
+    if(fp&&tp){
+      const[fx,fy]=tx(fp[0],fp[1]),[txx,ty]=tx(tp[0],tp[1]);
+      const p=ease(bi.prog);
+      bx=fx+(txx-fx)*p; by=fy+(ty-fy)*p;
+      ctx.save();ctx.setLineDash([3,3]);ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(bx,by);ctx.stroke();
+      // arrow toward target
+      ctx.setLineDash([]);
+      const ang=Math.atan2(ty-fy,txx-fx);
+      ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(txx,ty);ctx.stroke();
+      ctx.restore();
+    }
+  } else if(bi.c&&pos[bi.c]){
+    const[px,py]=tx(pos[bi.c][0],pos[bi.c][1]);
+    bx=px+pr*0.75; by=py-pr*0.75;
+  }
+
+  // players — draw defenders first (behind), then offense on top
+  const drawOrder = [];
+  for(const[role,[fx,fy]] of Object.entries(pos)){
+    const isDef=DEF_ROLES.includes(role);
+    if(isDef && !showDef) continue;
+    if(!isDef && !showOff) continue;
+    drawOrder.push({role,fx,fy,isDef});
+  }
+  // defenders first, offense on top
+  drawOrder.sort((a,b)=>(a.isDef?0:1)-(b.isDef?0:1));
+
+  for(const{role,fx,fy,isDef} of drawOrder){
+    const[cx,cy]=tx(fx,fy);
+    const isMid=role.startsWith('M');
+    // shadow
+    ctx.beginPath();ctx.arc(cx+1,cy+2,pr,0,2*Math.PI);
+    ctx.fillStyle='rgba(0,0,0,0.3)';ctx.fill();
+
+    if(isDef){
+      // Defender styling — red/crimson circles
+      ctx.beginPath();ctx.arc(cx,cy,pr,0,2*Math.PI);
+      const g=ctx.createRadialGradient(cx-pr*0.3,cy-pr*0.3,pr*0.1,cx,cy,pr);
+      if(role==='G'){
+        g.addColorStop(0,'#e8e8e8');g.addColorStop(1,'#aaa');
+        ctx.fillStyle=g;ctx.fill();
+        ctx.strokeStyle='#666';ctx.lineWidth=1.5;ctx.stroke();
+        ctx.fillStyle='#333';
+      } else {
+        g.addColorStop(0,'#FF6B6B');g.addColorStop(1,'#CC3333');
+        ctx.fillStyle=g;ctx.fill();
+        ctx.strokeStyle='#8B1A1A';ctx.lineWidth=1.5;ctx.stroke();
+        ctx.fillStyle='#fff';
+      }
+    } else {
+      // Offense styling — gold (unchanged)
+      ctx.beginPath();ctx.arc(cx,cy,pr,0,2*Math.PI);
+      const g=ctx.createRadialGradient(cx-pr*0.3,cy-pr*0.3,pr*0.1,cx,cy,pr);
+      g.addColorStop(0,isMid?'#FFE44D':'#FFD700');
+      g.addColorStop(1,isMid?'#DAA520':'#B8860B');
+      ctx.fillStyle=g;ctx.fill();
+      ctx.strokeStyle='#8B6914';ctx.lineWidth=1.5;ctx.stroke();
+      ctx.fillStyle='#1a1a1a';
+    }
+    // label
+    ctx.font=`bold ${tr(0.9)}px sans-serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(role,cx,cy+0.5);
+  }
+
+  // ball
+  if(bx!==undefined){
+    ctx.beginPath();ctx.arc(bx,by,ballR,0,2*Math.PI);
+    const bg=ctx.createRadialGradient(bx-ballR*0.3,by-ballR*0.3,ballR*0.1,bx,by,ballR);
+    bg.addColorStop(0,'#fff');bg.addColorStop(1,'#ddd');
+    ctx.fillStyle=bg;ctx.fill();
+    ctx.strokeStyle='#999';ctx.lineWidth=1;ctx.stroke();
+  }
+}
+
+// ============================================================
+//  MAIN DRAW
+// ============================================================
+function draw(){
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+  drawField();
+
+  if(!curPlay){
+    const pos={};
+    for(const k of OFF_ROLES) pos[k]=[...BASE[k]];
+    for(const k of DEF_ROLES) pos[k]=[...BASE_DEF[k]];
+    drawPlayers(pos,{c:null});return;
+  }
+
+  if(editMode){
+    // In edit mode, show resolved positions at current keyframe
+    const pos=resolved(curPlay,editKfIdx);
+    const kf=curPlay.kf[editKfIdx];
+    // draw all keyframe paths faintly
+    drawPaths(curPlay,curPlay.dur);
+    drawPlayers(pos,{c:kf.b||null});
+
+    // highlight dragging player
+    if(dragRole && pos[dragRole]){
+      const[cx,cy]=tx(pos[dragRole][0],pos[dragRole][1]);
+      ctx.save();
+      ctx.strokeStyle='#FFD700';ctx.lineWidth=3;ctx.setLineDash([4,3]);
+      ctx.beginPath();ctx.arc(cx,cy,tr(1.6),0,2*Math.PI);ctx.stroke();
+      ctx.restore();
+    }
+
+    // draw coordinate readout for dragged player
+    if(dragRole && pos[dragRole]){
+      const[cx,cy]=tx(pos[dragRole][0],pos[dragRole][1]);
+      ctx.fillStyle='rgba(0,0,0,0.7)';
+      ctx.font=`${tr(0.75)}px monospace`;
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.fillText(`${pos[dragRole][0].toFixed(1)}, ${pos[dragRole][1].toFixed(1)}`,cx,cy-tr(1.8));
+    }
+
+    // keyframe dots on scrubber area
+    const scrEl=document.getElementById('scrubber');
+    curTime=kf.t;
+    scrEl.value=(kf.t/curPlay.dur)*1000;
+    document.getElementById('timeDisp').textContent=kf.t.toFixed(1)+'s';
+
+    const note=kf.n||'';
+    const ab=document.getElementById('annoBox');
+    if(note){ab.textContent=`[KF ${editKfIdx+1}] ${note}`;ab.classList.add('visible')}
+    else{ab.textContent=`[KF ${editKfIdx+1}]`;ab.classList.add('visible')}
+  } else {
+    const pos=posAt(curPlay,curTime);
+    const bi=ballAt(curPlay,curTime);
+    drawPaths(curPlay,curTime);
+    drawPlayers(pos,bi);
+
+    const note=noteAt(curPlay,curTime);
+    const ab=document.getElementById('annoBox');
+    if(note){ab.textContent=note;ab.classList.add('visible')}
+    else ab.classList.remove('visible');
+
+    document.getElementById('scrubber').value=(curTime/curPlay.dur)*1000;
+    document.getElementById('timeDisp').textContent=curTime.toFixed(1)+'s';
+  }
+}
+
+// ============================================================
+//  ANIMATION LOOP
+// ============================================================
+function animate(ts){
+  if(!playing)return;
+  if(lastTS===null) lastTS=ts;
+  curTime+=((ts-lastTS)/1000)*speed;
+  lastTS=ts;
+  if(curPlay&&curTime>=curPlay.dur){curTime=curPlay.dur;playing=false;document.getElementById('playBtn').innerHTML='&#9654;'}
+  draw();
+  if(playing) requestAnimationFrame(animate);
+}
+
+// ============================================================
+//  UI
+// ============================================================
+function selectPlay(play){
+  curPlay=play;curTime=0;playing=false;lastTS=null;
+  editKfIdx=0;
+  document.getElementById('playBtn').innerHTML='&#9654;';
+  document.querySelectorAll('.play-item').forEach(e=>e.classList.toggle('active',e.dataset.id===play.id));
+  renderDetails();
+  if(editMode) updEditUI();
+  draw();
+}
+
+function renderDetails(){
+  const d=document.getElementById('details');
+  if(!curPlay){d.innerHTML='<h2>Select a Play</h2><p>Click a play from the sidebar to begin.</p>';return}
+  if(editMode){
+    d.className='meta-edit';
+    d.innerHTML=`
+      <div class="meta-row">
+        <div><label>Play Name</label><input id="metaName" value="${esc(curPlay.name)}"></div>
+        <div><label>Category</label><select id="metaCat">
+          <option value="settled"${curPlay.cat==='settled'?' selected':''}>Settled</option>
+          <option value="motion"${curPlay.cat==='motion'?' selected':''}>Motion</option>
+          <option value="stack"${curPlay.cat==='stack'?' selected':''}>Stack</option>
+          <option value="iso"${curPlay.cat==='iso'?' selected':''}>ISO</option>
+        </select></div>
+        <div><label>Formation</label><input id="metaForm" value="${esc(curPlay.form)}" style="width:80px"></div>
+      </div>
+      <label>Subtitle / Concept</label><input id="metaSub" value="${esc(curPlay.sub)}">
+      <label>Description</label><textarea id="metaDesc" rows="2">${esc(curPlay.desc)}</textarea>
+      <label>Coaching Notes</label><textarea id="metaCoach" rows="2">${esc(curPlay.coach)}</textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <button class="del-play-btn" id="delPlayBtn">Delete This Play</button>
+        <span style="font-size:11px;color:#555">ID: ${curPlay.id}</span>
+      </div>`;
+    // bind meta editors
+    const bind=(id,key)=>{const el=document.getElementById(id);if(el)el.addEventListener('input',()=>{curPlay[key]=el.value;autoSave();buildList(getActiveCat())})};
+    bind('metaName','name');bind('metaSub','sub');bind('metaDesc','desc');bind('metaCoach','coach');bind('metaForm','form');
+    const catEl=document.getElementById('metaCat');
+    if(catEl) catEl.addEventListener('change',()=>{curPlay.cat=catEl.value;autoSave();buildList(getActiveCat())});
+    const delBtn=document.getElementById('delPlayBtn');
+    if(delBtn) delBtn.addEventListener('click',deleteCurrentPlay);
+  } else {
+    d.className='details';
+    d.innerHTML=`<h2>${curPlay.name}</h2><div class="sub">${curPlay.sub}</div><span class="form-tag">${curPlay.form}</span><p>${curPlay.desc}</p><div class="coach"><strong>Coaching:</strong> ${curPlay.coach}</div>`;
+  }
+}
+
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function getActiveCat(){
+  const active=document.querySelector('.cat-tab.active');
+  return active?active.dataset.cat:'all';
+}
+
+function buildList(filter){
+  const el=document.getElementById('playList');el.innerHTML='';
+  const list=filter==='all'?PLAYS:PLAYS.filter(p=>p.cat===filter);
+  for(const p of list){
+    const d=document.createElement('div');
+    d.className='play-item'+(curPlay&&curPlay.id===p.id?' active':'');
+    d.dataset.id=p.id;
+    d.innerHTML=`<div class="play-name">${p.name}</div><div class="play-concept">${p.sub}</div><div class="play-cat">${p.cat}</div>`;
+    d.onclick=()=>selectPlay(p);
+    el.appendChild(d);
+  }
+}
+
+// category tabs
+document.getElementById('catTabs').addEventListener('click',e=>{
+  if(!e.target.classList.contains('cat-tab'))return;
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  e.target.classList.add('active');
+  buildList(e.target.dataset.cat);
+});
+
+// play/pause
+document.getElementById('playBtn').addEventListener('click',()=>{
+  if(!curPlay)return;
+  if(curTime>=curPlay.dur) curTime=0;
+  playing=!playing;lastTS=null;
+  document.getElementById('playBtn').innerHTML=playing?'&#9208;':'&#9654;';
+  if(playing) requestAnimationFrame(animate);
+});
+
+// reset
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  if(!curPlay)return;
+  curTime=0;playing=false;lastTS=null;
+  document.getElementById('playBtn').innerHTML='&#9654;';
+  draw();
+});
+
+// scrubber
+document.getElementById('scrubber').addEventListener('input',e=>{
+  if(!curPlay)return;
+  const t=(e.target.value/1000)*curPlay.dur;
+  if(editMode){
+    // snap to nearest keyframe
+    let best=0,bestD=Infinity;
+    curPlay.kf.forEach((k,i)=>{const d=Math.abs(k.t-t);if(d<bestD){bestD=d;best=i}});
+    editKfIdx=best;
+    updEditUI();
+  } else {
+    curTime=t;
+  }
+  playing=false;lastTS=null;
+  document.getElementById('playBtn').innerHTML='&#9654;';
+  draw();
+});
+
+// speed
+document.getElementById('speedSel').addEventListener('change',e=>{speed=parseFloat(e.target.value)});
+
+// paths toggle
+document.getElementById('showPaths').addEventListener('change',e=>{pathsOn=e.target.checked;draw()});
+// offense/defense toggles
+document.getElementById('showOff').addEventListener('change',e=>{showOff=e.target.checked;draw()});
+document.getElementById('showDef').addEventListener('change',e=>{showDef=e.target.checked;draw()});
+
+// keyboard
+document.addEventListener('keydown',e=>{
+  // Don't capture if typing in an input
+  if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT'||e.target.tagName==='TEXTAREA') return;
+  if(e.code==='Space'){e.preventDefault();document.getElementById('playBtn').click()}
+  if(e.code==='KeyR' && !editMode) document.getElementById('resetBtn').click();
+  if(e.code==='KeyE') toggleEdit();
+  if(editMode){
+    if(e.code==='ArrowLeft'){e.preventDefault();goKf(editKfIdx-1)}
+    if(e.code==='ArrowRight'){e.preventDefault();goKf(editKfIdx+1)}
+  }
+});
+
+// resize
+window.addEventListener('resize',resize);
+
+// ============================================================
+//  EDIT MODE
+// ============================================================
+let editMode=false, editKfIdx=0, dragRole=null;
+
+// ============================================================
+//  AUTO-SAVE / RESTORE (localStorage)
+// ============================================================
+const LS_KEY='ossining_playbook_v1';
+
+function autoSave(){
+  try{
+    const data=PLAYS.map(p=>({
+      id:p.id, name:p.name, sub:p.sub, cat:p.cat, form:p.form,
+      desc:p.desc, coach:p.coach, dur:p.dur,
+      kf:p.kf.map(k=>{const o={t:k.t,p:{...k.p}};if(k.b)o.b=k.b;if(k.n)o.n=k.n;return o})
+    }));
+    localStorage.setItem(LS_KEY,JSON.stringify(data));
+  }catch(e){}
+}
+
+function autoRestore(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw) return false;
+    const data=JSON.parse(raw);
+    if(!Array.isArray(data)||data.length===0) return false;
+    // merge saved data back into PLAYS by id
+    for(const saved of data){
+      const existing=PLAYS.find(p=>p.id===saved.id);
+      if(existing){
+        existing.kf=saved.kf;
+        existing.dur=saved.dur;
+        if(saved.desc) existing.desc=saved.desc;
+        if(saved.coach) existing.coach=saved.coach;
+        if(saved.sub) existing.sub=saved.sub;
+        if(saved.name) existing.name=saved.name;
+        if(saved.cat) existing.cat=saved.cat;
+        if(saved.form) existing.form=saved.form;
+      } else {
+        // New play created by user — add it back
+        PLAYS.push(saved);
+      }
+    }
+    return true;
+  }catch(e){return false}
+}
+
+// --- Save to File (download updated HTML) ---
+function saveToFile(){
+  // Serialize current PLAYS into JS source
+  const playsJS=JSON.stringify(PLAYS.map(p=>({
+    id:p.id,name:p.name,sub:p.sub,cat:p.cat,form:p.form,
+    desc:p.desc,coach:p.coach,dur:p.dur,
+    kf:p.kf.map(k=>{const o={t:k.t,p:k.p};if(k.b)o.b=k.b;if(k.n)o.n=k.n;return o})
+  })),null,2);
+
+  // Get the current full HTML
+  const html=document.documentElement.outerHTML;
+
+  // Replace the PLAYS array in the source
+  const startMark='const PLAYS = [';
+  const endMark='];\n\n// =';  // ============ STATE
+  const si=html.indexOf(startMark);
+  const ei=html.indexOf(endMark,si);
+  if(si===-1||ei===-1){
+    alert('Could not locate PLAYS data in source. Use Copy JSON instead.');
+    return;
+  }
+  const newHTML='<!DOCTYPE html>\n<html lang="en">\n'+
+    html.substring(html.indexOf('<head>'),si)+
+    'const PLAYS = '+playsJS+';\n\n// ='+
+    html.substring(ei+endMark.length);
+
+  const blob=new Blob([newHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='playbook.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  const st=document.getElementById('saveStatus');
+  st.textContent='Saved!';
+  setTimeout(()=>{st.textContent=''},2000);
+}
+
+function fromCvs(cx,cy){
+  // canvas pixel → field coords
+  const s=cvs.width/FW;
+  return[cx/s, cy/s];
+}
+
+function hitPlayer(mx,my){
+  if(!curPlay) return null;
+  const pos=resolved(curPlay,editKfIdx);
+  const hitR=tr(1.5);
+  let best=null, bestD=Infinity;
+  for(const role of ALL_ROLES){
+    if(!pos[role]) continue;
+    const isDef=DEF_ROLES.includes(role);
+    if(isDef && !showDef) continue;
+    if(!isDef && !showOff) continue;
+    const[px,py]=tx(pos[role][0],pos[role][1]);
+    const d=Math.hypot(mx-px,my-py);
+    if(d<hitR && d<bestD){bestD=d;best=role}
+  }
+  return best;
+}
+
+function toggleEdit(){
+  editMode=!editMode;
+  const btn=document.getElementById('editToggle');
+  const bar=document.getElementById('editBar');
+  btn.classList.toggle('active',editMode);
+  bar.style.display=editMode?'flex':'none';
+  if(editMode){
+    playing=false;lastTS=null;
+    document.getElementById('playBtn').innerHTML='&#9654;';
+    editKfIdx=0;
+    updEditUI();
+  }
+  renderDetails();
+  draw();
+}
+
+function updEditUI(){
+  if(!curPlay) return;
+  const kf=curPlay.kf;
+  document.getElementById('kfLabel').textContent=`KF ${editKfIdx+1} / ${kf.length}`;
+  document.getElementById('ebPrev').disabled=editKfIdx<=0;
+  document.getElementById('ebNext').disabled=editKfIdx>=kf.length-1;
+  document.getElementById('ebTime').value=kf[editKfIdx].t;
+  document.getElementById('ebNote').value=kf[editKfIdx].n||'';
+
+  // populate ball carrier select
+  const sel=document.getElementById('ebBall');
+  const ballRoles=[...ROLES,'G'];
+  sel.innerHTML='<option value="">(none)</option>'+ballRoles.map(r=>`<option value="${r}"${kf[editKfIdx].b===r?' selected':''}>${r}</option>`).join('');
+}
+
+function goKf(idx){
+  if(!curPlay) return;
+  editKfIdx=Math.max(0,Math.min(idx,curPlay.kf.length-1));
+  updEditUI();
+  draw();
+}
+
+// --- Edit toggle button ---
+document.getElementById('editToggle').addEventListener('click',toggleEdit);
+
+// --- Prev / Next KF ---
+document.getElementById('ebPrev').addEventListener('click',()=>goKf(editKfIdx-1));
+document.getElementById('ebNext').addEventListener('click',()=>goKf(editKfIdx+1));
+
+// --- Add keyframe ---
+document.getElementById('ebAdd').addEventListener('click',()=>{
+  if(!curPlay) return;
+  const cur=curPlay.kf[editKfIdx];
+  const nextT=editKfIdx<curPlay.kf.length-1?curPlay.kf[editKfIdx+1].t:cur.t+1;
+  const newT=+(((cur.t+nextT)/2).toFixed(2));
+  const newKf={t:newT, p:{}, b:cur.b, n:''};
+  curPlay.kf.splice(editKfIdx+1,0,newKf);
+  editKfIdx++;
+  updEditUI();draw();autoSave();
+});
+
+// --- Delete keyframe ---
+document.getElementById('ebDel').addEventListener('click',()=>{
+  if(!curPlay || curPlay.kf.length<=1) return;
+  curPlay.kf.splice(editKfIdx,1);
+  if(editKfIdx>=curPlay.kf.length) editKfIdx=curPlay.kf.length-1;
+  updEditUI();draw();autoSave();
+});
+
+// --- Time input ---
+document.getElementById('ebTime').addEventListener('change',e=>{
+  if(!curPlay) return;
+  curPlay.kf[editKfIdx].t=parseFloat(e.target.value)||0;
+  // re-sort keyframes by time
+  const savedKf=curPlay.kf[editKfIdx];
+  curPlay.kf.sort((a,b)=>a.t-b.t);
+  editKfIdx=curPlay.kf.indexOf(savedKf);
+  // update dur
+  curPlay.dur=Math.max(curPlay.dur, curPlay.kf[curPlay.kf.length-1].t+0.5);
+  updEditUI();draw();autoSave();
+});
+
+// --- Ball carrier select ---
+document.getElementById('ebBall').addEventListener('change',e=>{
+  if(!curPlay) return;
+  curPlay.kf[editKfIdx].b=e.target.value||undefined;
+  draw();autoSave();
+});
+
+// --- Annotation input ---
+document.getElementById('ebNote').addEventListener('input',e=>{
+  if(!curPlay) return;
+  curPlay.kf[editKfIdx].n=e.target.value;
+  draw();autoSave();
+});
+
+// --- Save to File ---
+document.getElementById('ebSave').addEventListener('click',saveToFile);
+
+// --- Copy JSON ---
+document.getElementById('ebCopy').addEventListener('click',()=>{
+  if(!curPlay) return;
+  // Build a clean copy of the play data
+  const out={
+    id:curPlay.id, name:curPlay.name, sub:curPlay.sub,
+    cat:curPlay.cat, form:curPlay.form,
+    desc:curPlay.desc, coach:curPlay.coach, dur:curPlay.dur,
+    kf:curPlay.kf.map(k=>{
+      const o={t:k.t,p:{...k.p}};
+      if(k.b) o.b=k.b;
+      if(k.n) o.n=k.n;
+      return o;
+    })
+  };
+  const json=JSON.stringify(out,null,2);
+  navigator.clipboard.writeText(json).then(()=>{
+    const btn=document.getElementById('ebCopy');
+    btn.textContent='Copied!';
+    setTimeout(()=>{btn.textContent='Copy JSON'},1500);
+  }).catch(()=>{
+    // fallback: open in a prompt
+    prompt('Copy this JSON:',json);
+  });
+});
+
+// --- Canvas drag-and-drop (mouse) ---
+cvs.addEventListener('mousedown',e=>{
+  if(!editMode||!curPlay) return;
+  const rect=cvs.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+  const role=hitPlayer(mx,my);
+  if(role){dragRole=role;cvs.style.cursor='grabbing';e.preventDefault()}
+});
+
+cvs.addEventListener('mousemove',e=>{
+  if(!editMode) return;
+  const rect=cvs.getBoundingClientRect();
+  const mx=e.clientX-rect.left, my=e.clientY-rect.top;
+
+  if(dragRole && curPlay){
+    const[fx,fy]=fromCvs(mx,my);
+    // Clamp to field bounds
+    const cx=Math.max(0,Math.min(FW,+fx.toFixed(1)));
+    const cy=Math.max(0,Math.min(FH,+fy.toFixed(1)));
+    // Store in current keyframe's p
+    curPlay.kf[editKfIdx].p[dragRole]=[cx,cy];
+    draw();
+  } else {
+    // hover cursor
+    const role=hitPlayer(mx,my);
+    cvs.style.cursor=role?'grab':'default';
+  }
+});
+
+cvs.addEventListener('mouseup',()=>{
+  if(dragRole){dragRole=null;cvs.style.cursor='default';draw();autoSave()}
+});
+
+cvs.addEventListener('mouseleave',()=>{
+  if(dragRole){dragRole=null;cvs.style.cursor='default';draw()}
+});
+
+// --- Canvas drag-and-drop (touch for tablets) ---
+cvs.addEventListener('touchstart',e=>{
+  if(!editMode||!curPlay) return;
+  const rect=cvs.getBoundingClientRect();
+  const t=e.touches[0];
+  const mx=t.clientX-rect.left, my=t.clientY-rect.top;
+  const role=hitPlayer(mx,my);
+  if(role){dragRole=role;e.preventDefault()}
+},{passive:false});
+
+cvs.addEventListener('touchmove',e=>{
+  if(!dragRole||!editMode||!curPlay) return;
+  e.preventDefault();
+  const rect=cvs.getBoundingClientRect();
+  const t=e.touches[0];
+  const mx=t.clientX-rect.left, my=t.clientY-rect.top;
+  const[fx,fy]=fromCvs(mx,my);
+  const cx=Math.max(0,Math.min(FW,+fx.toFixed(1)));
+  const cy=Math.max(0,Math.min(FH,+fy.toFixed(1)));
+  curPlay.kf[editKfIdx].p[dragRole]=[cx,cy];
+  draw();
+},{passive:false});
+
+cvs.addEventListener('touchend',()=>{
+  if(dragRole){dragRole=null;draw();autoSave()}
+});
+
+// ============================================================
+//  CREATE / DELETE PLAYS
+// ============================================================
+function createNewPlay(){
+  // Generate unique id
+  let num=PLAYS.length+1;
+  let id='play'+num;
+  while(PLAYS.find(p=>p.id===id)){num++;id='play'+num}
+
+  const baseP={};
+  for(const k of OFF_ROLES) baseP[k]=[...BASE[k]];
+  for(const k of DEF_ROLES) baseP[k]=[...BASE_DEF[k]];
+
+  const newPlay={
+    id:id,
+    name:'New Play '+num,
+    sub:'Untitled Concept',
+    cat:'settled',
+    form:'3-2-2',
+    desc:'',
+    coach:'',
+    dur:6,
+    kf:[
+      {t:0, p:baseP, b:'M1', n:'Starting formation'},
+      {t:3, p:{}, b:'M1', n:''},
+      {t:6, p:{}, b:'M1', n:''}
+    ]
+  };
+
+  PLAYS.push(newPlay);
+  autoSave();
+
+  // Switch to All tab
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.toggle('active',t.dataset.cat==='all'));
+  buildList('all');
+
+  // Select and enter edit mode
+  selectPlay(newPlay);
+  if(!editMode) toggleEdit();
+
+  // Focus the name field so user can rename immediately
+  setTimeout(()=>{const n=document.getElementById('metaName');if(n){n.focus();n.select()}},100);
+}
+
+function deleteCurrentPlay(){
+  if(!curPlay) return;
+  if(!confirm('Delete "'+curPlay.name+'"? This cannot be undone.')) return;
+  const idx=PLAYS.indexOf(curPlay);
+  if(idx>-1) PLAYS.splice(idx,1);
+  autoSave();
+  buildList(getActiveCat());
+  if(PLAYS.length>0){
+    selectPlay(PLAYS[Math.min(idx,PLAYS.length-1)]);
+  } else {
+    curPlay=null;
+    renderDetails();
+    draw();
+  }
+}
+
+// --- New Play button ---
+document.getElementById('newPlayBtn').addEventListener('click',createNewPlay);
+
+// init
+const hadSavedEdits=autoRestore();
+buildList('all');
+selectPlay(PLAYS[0]);
+resize();
+if(hadSavedEdits){
+  const st=document.getElementById('saveStatus');
+  if(st){st.textContent='Restored unsaved edits';setTimeout(()=>{st.textContent=''},3000)}
+}
+</script>
+</body>
+</html>
