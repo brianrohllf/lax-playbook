@@ -111,7 +111,7 @@ canvas#field{border-radius:10px;display:block}
     <div class="cat-tab" data-cat="stack">Stack</div>
     <div class="cat-tab" data-cat="iso">ISO</div>
   </div>
-  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item active" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div></div>
+  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll - 2 man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div><div class="play-item" data-id="phoenix"><div class="play-name">Starburst</div><div class="play-concept">Draw &amp; Dump — Force the Slide - 2 Man</div><div class="play-cat">settled</div></div><div class="play-item active" data-id="diesel"><div class="play-name">Diesel</div><div class="play-concept">Criss Cross — Into Pick &amp; Roll</div><div class="play-cat">motion</div></div><div class="play-item" data-id="viper"><div class="play-name">Viper</div><div class="play-concept">Backdoor Stack — Cut Behind the Crease</div><div class="play-cat">stack</div></div></div>
   <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
 </div>
 
@@ -119,13 +119,13 @@ canvas#field{border-radius:10px;display:block}
   <div class="field-container">
     <div class="field-wrapper">
       <canvas id="field" width="1067" height="671" style="cursor: default;"></canvas>
-      <div class="annotation-box visible" id="annoBox">[KF 1] Stack set at right GLE</div>
+      <div class="annotation-box visible" id="annoBox">A2 finishes on the roll!</div>
     </div>
   </div>
   <div class="controls">
     <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
     <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
-    <span class="time-disp" id="timeDisp">0.0s</span>
+    <span class="time-disp" id="timeDisp">8.0s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
@@ -136,11 +136,11 @@ canvas#field{border-radius:10px;display:block}
     <label class="tog-paths"><input type="checkbox" id="showPaths" checked=""> Paths</label>
     <label class="tog-paths"><input type="checkbox" id="showOff" checked=""> Off</label>
     <label class="tog-paths"><input type="checkbox" id="showDef" checked=""> Def</label>
-    <button class="edit-toggle active" id="editToggle">Edit</button>
+    <button class="edit-toggle" id="editToggle">Edit</button>
     <button class="edit-toggle" id="saveBtn" title="Download updated playbook HTML">Save to File</button>
     <button class="edit-toggle" id="resetOrigBtn" title="Discard all edits and restore original plays">Reset to Original</button>
   </div>
-  <div class="edit-bar" id="editBar" style="display: flex;">
+  <div class="edit-bar" id="editBar" style="display: none;">
     <button class="eb" id="ebPrev" title="Previous keyframe" disabled="">« Prev</button>
     <span class="kf-label" id="kfLabel">KF 1 / 9</span>
     <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
@@ -149,31 +149,14 @@ canvas#field{border-radius:10px;display:block}
     <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1" selected="">M1</option><option value="M2">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2" selected="">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
     <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
   </div>
-  <div class="meta-edit" id="details">
-      <div class="meta-row">
-        <div><label>Play Name</label><input id="metaName" value="T-Bone"></div>
-        <div><label>Category</label><select id="metaCat">
-          <option value="settled">Settled</option>
-          <option value="motion">Motion</option>
-          <option value="stack" selected="">Stack</option>
-          <option value="iso">ISO</option>
-        </select></div>
-        <div><label>Formation</label><input id="metaForm" value="Stack" style="width:80px"></div>
-      </div>
-      <label>Subtitle / Concept</label><input id="metaSub" value="Picket Fence — Stack at GLE">
-      <label>Description</label><textarea id="metaDesc" rows="2">Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.</textarea>
-      <label>Coaching Notes</label><textarea id="metaCoach" rows="2">Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.</textarea>
-      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-        <button class="del-play-btn" id="delPlayBtn">Delete This Play</button>
-        <span style="font-size:11px;color:#555">ID: tbone</span>
-      </div></div>
+  <div class="details" id="details"><h2>Diesel</h2><div class="sub">Criss Cross — Into Pick &amp; Roll</div><span class="form-tag">3-2-2</span><p>A two-part play that chains a criss cross into a pick and roll. M2 has the ball up top. A1 and A2 criss cross underneath M2 to create initial confusion and movement. A2 then continues to set a pick on M2's defender. M2 uses the pick to drive toward goal. A2 rolls to goal after the pick. This gives two immediate scoring options: M2 on the drive or A2 on the roll.</p><div class="coach"><strong>Coaching:</strong> A1 and A2 start the criss cross at the same time — this is what sells it. A1 goes left, A2 goes right. A2 continues up and sets a SOLID pick on D2. Feet planted, don't move. M2 waits for the pick to be set, then drives hard off the right side. A2: the moment M2 goes by, roll to goal. You'll either be wide open or pull the defense enough for M2 to score. A3 stays low as a backside option.</div></div>
 </div>
 
 <script>
@@ -219,7 +202,7 @@ const PLAYS = [
   {
     "id": "skittles",
     "name": "Skittles",
-    "sub": "Pass Down, Pick Down — Pick & Roll",
+    "sub": "Pass Down, Pick Down — Pick & Roll - 2 man",
     "cat": "settled",
     "form": "3-2-2",
     "desc": "Ball starts with A2 and goes to A4 at GLE. A2 comes down to set a pick for A4 just above GLE. A4 uses the pick by running to the outside past A2. If defenders leave A2 to double A4, A2 rolls to goal. This is a 2-man game between A4 and A2.",
@@ -1867,6 +1850,754 @@ const PLAYS = [
         "p": {},
         "b": "G",
         "n": "Shot on goal"
+      }
+    ]
+  },
+  {
+    "id": "phoenix",
+    "name": "Starburst",
+    "sub": "Draw & Dump — Force the Slide - 2 Man",
+    "cat": "settled",
+    "form": "3-2-2",
+    "desc": "The foundation of settled offense. A1 drives hard from the left wing toward goal to draw a defensive slide. When the adjacent defender (covering A3) slides up to help, A3 cuts through the 8m arc for the dump pass and a point-blank shot. If no slide comes, A1 takes it to goal herself. M2 holds up top as a reset option.",
+    "coach": "A1: drive HARD — sell it. You need the slide to come. Eyes up the whole time. A3: watch your defender — the moment she slides to A1, cut through the 8m toward goal and call for the ball. Timing is everything: cut too early and you're in the crease, too late and the defense recovers. M2 stays high as the outlet if the play breaks down. This is a read play: if no slide, A1 scores. If slide, dump to A3.",
+    "dur": 7,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            15
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            18,
+            24
+          ],
+          "A2": [
+            52,
+            24
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            48,
+            37
+          ],
+          "D1": [
+            25.5,
+            18.5
+          ],
+          "D2": [
+            35.7,
+            19.5
+          ],
+          "D3": [
+            43.8,
+            22.8
+          ],
+          "D4": [
+            24.1,
+            27.1
+          ],
+          "D5": [
+            46.3,
+            26.7
+          ],
+          "D6": [
+            28.1,
+            31.3
+          ],
+          "D7": [
+            43.4,
+            31.2
+          ],
+          "G": [
+            35,
+            32.8
+          ]
+        },
+        "b": "M1",
+        "n": "Formation — ball up top with M1"
+      },
+      {
+        "t": 1,
+        "p": {
+          "D1": [
+            28,
+            21.6
+          ],
+          "D4": [
+            21.6,
+            26.3
+          ]
+        },
+        "b": "A1",
+        "n": "M1 passes to A1 on the left wing"
+      },
+      {
+        "t": 2,
+        "p": {
+          "A1": [
+            24.6,
+            26
+          ],
+          "D4": [
+            26.7,
+            28.2
+          ]
+        },
+        "b": "A1",
+        "n": "A1 catches and faces up — reads the defense"
+      },
+      {
+        "t": 3,
+        "p": {
+          "A1": [
+            29.5,
+            27.8
+          ],
+          "D4": [
+            31.2,
+            28.6
+          ],
+          "D6": [
+            28.8,
+            30.1
+          ],
+          "A3": [
+            24.9,
+            30.3
+          ]
+        },
+        "b": "A1",
+        "n": "A1 drives hard to goal — D6 starts to slide!"
+      },
+      {
+        "t": 4,
+        "p": {
+          "A1": [
+            34.1,
+            27.3
+          ],
+          "D4": [
+            33.7,
+            28.8
+          ],
+          "D6": [
+            35.2,
+            28.6
+          ],
+          "A3": [
+            29,
+            27.7
+          ]
+        },
+        "b": "A1",
+        "n": "A1 draws the slide — A3's defender has left!"
+      },
+      {
+        "t": 4.8,
+        "p": {
+          "A1": [
+            35.7,
+            27.5
+          ],
+          "A3": [
+            31,
+            28.4
+          ],
+          "D4": [
+            35.8,
+            28.8
+          ],
+          "D6": [
+            35.6,
+            29.3
+          ],
+          "G": [
+            34.9,
+            32.4
+          ]
+        },
+        "b": "A3",
+        "n": "A1 dumps to A3 cutting through the 8m!"
+      },
+      {
+        "t": 5.8,
+        "p": {
+          "A3": [
+            31.2,
+            27.8
+          ],
+          "D6": [
+            36.4,
+            28.4
+          ],
+          "D4": [
+            36,
+            28.5
+          ],
+          "G": [
+            34.9,
+            32.4
+          ]
+        },
+        "b": "G",
+        "n": "A3 catches and shoots — point blank!"
+      },
+      {
+        "t": 6.5,
+        "p": {
+          "A3": [
+            35,
+            31
+          ]
+        },
+        "b": "A3",
+        "n": "A3 scores on the dump!"
+      }
+    ]
+  },
+  {
+    "id": "diesel",
+    "name": "Diesel",
+    "sub": "Criss Cross — Into Pick & Roll",
+    "cat": "motion",
+    "form": "3-2-2",
+    "desc": "A two-part play that chains a criss cross into a pick and roll. M2 has the ball up top. A1 and A2 criss cross underneath M2 to create initial confusion and movement. A2 then continues to set a pick on M2's defender. M2 uses the pick to drive toward goal. A2 rolls to goal after the pick. This gives two immediate scoring options: M2 on the drive or A2 on the roll.",
+    "coach": "A1 and A2 start the criss cross at the same time — this is what sells it. A1 goes left, A2 goes right. A2 continues up and sets a SOLID pick on D2. Feet planted, don't move. M2 waits for the pick to be set, then drives hard off the right side. A2: the moment M2 goes by, roll to goal. You'll either be wide open or pull the defense enough for M2 to score. A3 stays low as a backside option.",
+    "dur": 8,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            15
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            15
+          ],
+          "A1": [
+            18,
+            24
+          ],
+          "A2": [
+            52,
+            24
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            48,
+            37
+          ],
+          "D1": [
+            28,
+            21.8
+          ],
+          "D2": [
+            37.1,
+            15.4
+          ],
+          "D3": [
+            44.6,
+            21
+          ],
+          "D4": [
+            24.2,
+            26.9
+          ],
+          "D5": [
+            47.3,
+            26.5
+          ],
+          "D6": [
+            25,
+            35
+          ],
+          "D7": [
+            50,
+            35
+          ],
+          "G": [
+            35,
+            32.8
+          ]
+        },
+        "b": "M2",
+        "n": "Formation — ball with M2 up top"
+      },
+      {
+        "t": 1.2,
+        "p": {
+          "A1": [
+            30,
+            22
+          ],
+          "A2": [
+            40,
+            22
+          ],
+          "D4": [
+            28,
+            25
+          ],
+          "D5": [
+            42,
+            25
+          ],
+          "M1": [
+            17.9,
+            21.9
+          ],
+          "D1": [
+            23.8,
+            25.6
+          ]
+        },
+        "b": "M2",
+        "n": "A1 and A2 start criss cross — A1 goes right, A2 goes left"
+      },
+      {
+        "t": 2.2,
+        "p": {
+          "A1": [
+            42,
+            22
+          ],
+          "A2": [
+            30,
+            20
+          ],
+          "D4": [
+            40,
+            24
+          ],
+          "D5": [
+            32,
+            23
+          ]
+        },
+        "b": "M2",
+        "n": "Criss cross complete — defenders are switched"
+      },
+      {
+        "t": 3,
+        "p": {
+          "A2": [
+            36,
+            16
+          ],
+          "D5": [
+            35,
+            19
+          ],
+          "A1": [
+            46,
+            23
+          ]
+        },
+        "b": "M2",
+        "n": "A2 continues up to set pick on D2"
+      },
+      {
+        "t": 3.8,
+        "p": {
+          "A2": [
+            37,
+            14
+          ],
+          "M2": [
+            34.4,
+            15.1
+          ],
+          "D2": [
+            37,
+            15
+          ],
+          "D5": [
+            36,
+            18
+          ]
+        },
+        "b": "M2",
+        "n": "Pick is set! M2 drives right off A2's pick"
+      },
+      {
+        "t": 4.8,
+        "p": {
+          "M2": [
+            32.5,
+            18.5
+          ],
+          "A2": [
+            37,
+            18
+          ],
+          "D2": [
+            35.7,
+            17.9
+          ],
+          "D5": [
+            34.5,
+            20
+          ],
+          "D3": [
+            46,
+            20
+          ]
+        },
+        "b": "M2",
+        "n": "M2 drives hard — D2 caught on the pick!"
+      },
+      {
+        "t": 5.8,
+        "p": {
+          "M2": [
+            31.7,
+            22
+          ],
+          "A2": [
+            37.5,
+            24
+          ],
+          "D2": [
+            33.9,
+            21.9
+          ],
+          "D5": [
+            32.8,
+            23.2
+          ],
+          "D3": [
+            42,
+            23
+          ],
+          "G": [
+            35,
+            31
+          ]
+        },
+        "b": "M2",
+        "n": "M2 attacks goal — A2 rolls inside"
+      },
+      {
+        "t": 6.8,
+        "p": {
+          "M2": [
+            31.3,
+            25.2
+          ],
+          "A2": [
+            37.7,
+            27
+          ],
+          "D5": [
+            33.4,
+            25.9
+          ],
+          "G": [
+            35,
+            30
+          ],
+          "D2": [
+            33.2,
+            23.6
+          ]
+        },
+        "b": "A2",
+        "n": "M2 feeds A2 on the roll — or scores herself!"
+      },
+      {
+        "t": 7.5,
+        "p": {
+          "A2": [
+            35,
+            30
+          ]
+        },
+        "b": "A2",
+        "n": "A2 finishes on the roll!"
+      }
+    ]
+  },
+  {
+    "id": "viper",
+    "name": "Viper",
+    "sub": "Backdoor Stack — Cut Behind the Crease",
+    "cat": "stack",
+    "form": "Stack",
+    "desc": "Attackers stacked on the left GLE (opposite side from T-Bone). A3 has the ball behind the goal as the feeder. Cutters peel off the stack and make backdoor cuts BEHIND the crease — going away from the ball first, then cutting back hard toward goal. The defense expects cuts toward the ball, so the backdoor catches them off guard. First two cuts are decoys; the third cutter (A4) gets the feed.",
+    "coach": "A3 is the feeder behind the goal — she reads which cutter is open. Cutters: sell the fake by taking two hard steps TOWARD the ball, then plant and cut backdoor behind the crease. Your defender will overplay the ball side — that's when you go back door. A1 and A2 are decoy cuts to clear space. A4 is the primary: time your cut so you arrive as A1 and A2 clear through. The goalie will have her back to you — attack from behind the crease.",
+    "dur": 8,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            22,
+            14
+          ],
+          "M2": [
+            35,
+            12
+          ],
+          "M3": [
+            48,
+            14
+          ],
+          "A1": [
+            16,
+            30
+          ],
+          "A2": [
+            16,
+            32
+          ],
+          "A3": [
+            25,
+            38
+          ],
+          "A4": [
+            16,
+            34
+          ],
+          "D1": [
+            26.1,
+            23
+          ],
+          "D2": [
+            36.6,
+            19.1
+          ],
+          "D3": [
+            45.1,
+            23.1
+          ],
+          "D4": [
+            18,
+            31
+          ],
+          "D5": [
+            18,
+            33
+          ],
+          "D6": [
+            27,
+            36
+          ],
+          "D7": [
+            18,
+            35
+          ],
+          "G": [
+            35,
+            32.8
+          ]
+        },
+        "b": "A3",
+        "n": "Stack set on left GLE — A3 is feeder behind goal"
+      },
+      {
+        "t": 1.2,
+        "p": {
+          "A1": [
+            20,
+            29
+          ],
+          "D4": [
+            20,
+            30
+          ]
+        },
+        "b": "A3",
+        "n": "A1 fakes toward ball — sells the cut"
+      },
+      {
+        "t": 2,
+        "p": {
+          "A1": [
+            30,
+            33
+          ],
+          "D4": [
+            27,
+            32
+          ],
+          "A2": [
+            19,
+            30
+          ],
+          "D5": [
+            20,
+            31
+          ]
+        },
+        "b": "A3",
+        "n": "A1 plants and cuts backdoor behind crease! A2 starts fake"
+      },
+      {
+        "t": 3,
+        "p": {
+          "A1": [
+            40,
+            35
+          ],
+          "D4": [
+            36,
+            34
+          ],
+          "A2": [
+            28,
+            34
+          ],
+          "D5": [
+            25,
+            33
+          ]
+        },
+        "b": "A3",
+        "n": "A1 clears through — decoy. A2 cuts backdoor"
+      },
+      {
+        "t": 4,
+        "p": {
+          "A1": [
+            48,
+            33
+          ],
+          "D4": [
+            44,
+            33
+          ],
+          "A2": [
+            40,
+            36
+          ],
+          "D5": [
+            36,
+            35
+          ],
+          "A4": [
+            19,
+            32
+          ],
+          "D7": [
+            20,
+            33
+          ]
+        },
+        "b": "A3",
+        "n": "A2 clears — space is open. A4 starts her fake"
+      },
+      {
+        "t": 5,
+        "p": {
+          "A4": [
+            24,
+            31
+          ],
+          "D7": [
+            23,
+            32
+          ],
+          "A2": [
+            48,
+            35
+          ],
+          "D5": [
+            44,
+            35
+          ]
+        },
+        "b": "A3",
+        "n": "A4 fakes toward ball — sells it hard"
+      },
+      {
+        "t": 5.8,
+        "p": {
+          "A4": [
+            32.2,
+            35.6
+          ],
+          "D7": [
+            29.5,
+            34.4
+          ],
+          "G": [
+            35,
+            32
+          ]
+        },
+        "b": "A3",
+        "n": "A4 plants and cuts backdoor — D7 overplayed!"
+      },
+      {
+        "t": 6.5,
+        "p": {
+          "A4": [
+            38,
+            35
+          ],
+          "D7": [
+            35.8,
+            35.3
+          ],
+          "G": [
+            35,
+            31
+          ]
+        },
+        "b": "A4",
+        "n": "A3 feeds A4 behind the crease!"
+      },
+      {
+        "t": 7.5,
+        "p": {
+          "A4": [
+            39,
+            28.4
+          ],
+          "D7": [
+            39.1,
+            31.1
+          ],
+          "G": [
+            35,
+            31
+          ]
+        },
+        "b": "A4",
+        "n": "A4 catches and scores — goalie wrong-footed!"
+      },
+      {
+        "t": 8,
+        "p": {
+          "A4": [
+            36.2,
+            28
+          ]
+        },
+        "b": "G"
       }
     ]
   }
