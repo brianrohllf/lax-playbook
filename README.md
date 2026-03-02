@@ -1,4 +1,4 @@
-# Ossining Women's Lacrosse Playbook
+# Women's Lacrosse Playbook
 
 An interactive, animated playbook for the Ossining high school women's lacrosse program. Built as a single self-contained HTML file — no internet connection, no server, and no dependencies required.
 
