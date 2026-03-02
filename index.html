@@ -111,21 +111,21 @@ canvas#field{border-radius:10px;display:block}
     <div class="cat-tab" data-cat="stack">Stack</div>
     <div class="cat-tab" data-cat="iso">ISO</div>
   </div>
-  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll - 2 man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div><div class="play-item" data-id="phoenix"><div class="play-name">Starburst</div><div class="play-concept">Draw &amp; Dump — Force the Slide - 2 Man</div><div class="play-cat">settled</div></div><div class="play-item active" data-id="diesel"><div class="play-name">Diesel</div><div class="play-concept">Criss Cross — Into Pick &amp; Roll</div><div class="play-cat">motion</div></div><div class="play-item" data-id="viper"><div class="play-name">Viper</div><div class="play-concept">Backdoor Stack — Cut Behind the Crease</div><div class="play-cat">stack</div></div></div>
+  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll - 2 man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item active" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div><div class="play-item" data-id="phoenix"><div class="play-name">Starburst</div><div class="play-concept">Draw &amp; Dump — Force the Slide - 2 Man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="diesel"><div class="play-name">Diesel</div><div class="play-concept">Criss Cross — Into Pick &amp; Roll</div><div class="play-cat">motion</div></div><div class="play-item" data-id="viper"><div class="play-name">Viper</div><div class="play-concept">Backdoor Stack — Cut Behind the Crease</div><div class="play-cat">stack</div></div></div>
   <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
 </div>
 
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="1067" height="671" style="cursor: default;"></canvas>
-      <div class="annotation-box visible" id="annoBox">A2 finishes on the roll!</div>
+      <canvas id="field" width="940" height="591" style="cursor: default;"></canvas>
+      <div class="annotation-box visible" id="annoBox">Ball with M2</div>
     </div>
   </div>
   <div class="controls">
     <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
     <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
-    <span class="time-disp" id="timeDisp">8.0s</span>
+    <span class="time-disp" id="timeDisp">0.0s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
@@ -142,21 +142,23 @@ canvas#field{border-radius:10px;display:block}
   </div>
   <div class="edit-bar" id="editBar" style="display: none;">
     <button class="eb" id="ebPrev" title="Previous keyframe" disabled="">« Prev</button>
-    <span class="kf-label" id="kfLabel">KF 1 / 9</span>
+    <span class="kf-label" id="kfLabel">KF 1 / 8</span>
     <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
     <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2" selected="">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2" selected="">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
     <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
   </div>
-  <div class="details" id="details"><h2>Diesel</h2><div class="sub">Criss Cross — Into Pick &amp; Roll</div><span class="form-tag">3-2-2</span><p>A two-part play that chains a criss cross into a pick and roll. M2 has the ball up top. A1 and A2 criss cross underneath M2 to create initial confusion and movement. A2 then continues to set a pick on M2's defender. M2 uses the pick to drive toward goal. A2 rolls to goal after the pick. This gives two immediate scoring options: M2 on the drive or A2 on the roll.</p><div class="coach"><strong>Coaching:</strong> A1 and A2 start the criss cross at the same time — this is what sells it. A1 goes left, A2 goes right. A2 continues up and sets a SOLID pick on D2. Feet planted, don't move. M2 waits for the pick to be set, then drives hard off the right side. A2: the moment M2 goes by, roll to goal. You'll either be wide open or pull the defense enough for M2 to score. A3 stays low as a backside option.</div></div>
+  <div class="details" id="details"><h2>Mercy</h2><div class="sub">Isolation — Clear Out</div><span class="form-tag">3-2-2</span><p>M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides. This is a good beginner play as it is a Right ISO play that most kids can execute.</p><div class="coach"><strong>Coaching:</strong> M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.
+
+VARIATION- You can run a  variation of this starting with A1 and A2 in front of the goal as a screen. When the iso starts they clear out to the wings. If the defender slides, they leave an attacker open on the perimeter. If they don’t slide, the ball carrier can attack the open lane. If they stay inside the 8 after the Attack clear out, it can generate a shooting space call.</div></div>
 </div>
 
 <script>
@@ -1375,28 +1377,28 @@ const PLAYS = [
     "sub": "Isolation — Clear Out",
     "cat": "iso",
     "form": "3-2-2",
-    "desc": "M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides.",
-    "coach": "M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.",
+    "desc": "M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides. This is a good beginner play as it is a Right ISO play that most kids can execute.",
+    "coach": "M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.\n\nVARIATION- You can run a  variation of this starting with A1 and A2 in front of the goal as a screen. When the iso starts they clear out to the wings. If the defender slides, they leave an attacker open on the perimeter. If they don’t slide, the ball carrier can attack the open lane. If they stay inside the 8 after the Attack clear out, it can generate a shooting space call.",
     "dur": 7,
     "kf": [
       {
         "t": 0,
         "p": {
           "M1": [
-            24,
-            18.6
+            24.7,
+            19.6
           ],
           "M2": [
-            32.8,
-            15.4
+            34.6,
+            17.3
           ],
           "M3": [
-            47.5,
-            17.4
+            45.8,
+            19.6
           ],
           "A1": [
-            17.2,
-            25.2
+            16.4,
+            26.8
           ],
           "A2": [
             52.3,
@@ -1411,16 +1413,16 @@ const PLAYS = [
             36
           ],
           "D6": [
-            25.6,
-            31.9
+            27.6,
+            32.1
           ],
           "D7": [
-            45.1,
-            32
+            43,
+            31.9
           ],
           "D4": [
-            24,
-            26.1
+            24.3,
+            27.7
           ],
           "D1": [
             28,
@@ -1443,19 +1445,37 @@ const PLAYS = [
         "n": "Ball with M2"
       },
       {
+        "t": 0.6,
+        "p": {
+          "M2": [
+            35.7,
+            20.1
+          ],
+          "M3": [
+            44.9,
+            19.6
+          ],
+          "M1": [
+            29.3,
+            20.6
+          ]
+        },
+        "b": "M3"
+      },
+      {
         "t": 1.2,
         "p": {
           "M2": [
-            38.5,
-            15.7
+            39.5,
+            21
           ],
           "M1": [
-            33.6,
-            16.8
+            36.2,
+            22.7
           ],
           "M3": [
-            43.5,
-            16.2
+            40.1,
+            17.8
           ],
           "D1": [
             33.3,
@@ -1485,16 +1505,16 @@ const PLAYS = [
             18
           ],
           "M3": [
-            37.2,
-            14.9
+            32.4,
+            18.1
           ],
           "D2": [
             45.3,
             21.9
           ],
           "D3": [
-            39.5,
-            18.5
+            37.5,
+            19.3
           ],
           "D1": [
             41.6,
@@ -1516,12 +1536,12 @@ const PLAYS = [
             20
           ],
           "M3": [
-            36.2,
-            19.9
+            33.5,
+            23.8
           ],
           "D3": [
-            38.6,
-            19.6
+            37.5,
+            20.1
           ],
           "D1": [
             44.8,
@@ -1536,8 +1556,8 @@ const PLAYS = [
             28.3
           ],
           "D4": [
-            28,
-            27
+            25.7,
+            27.1
           ],
           "A1": [
             20.2,
@@ -1551,20 +1571,20 @@ const PLAYS = [
         "t": 4.5,
         "p": {
           "M3": [
-            36.2,
-            25
+            34.6,
+            25.5
           ],
           "A1": [
-            27.6,
-            27.3
+            28.3,
+            29.1
           ],
           "D4": [
             33.6,
             27.3
           ],
           "D3": [
-            39.3,
-            23.3
+            37.4,
+            24.6
           ]
         },
         "b": "M3",
@@ -1578,8 +1598,8 @@ const PLAYS = [
             25.8
           ],
           "A1": [
-            28,
-            28
+            30.1,
+            29.7
           ],
           "D4": [
             34.1,
@@ -1590,30 +1610,15 @@ const PLAYS = [
             25.4
           ]
         },
-        "b": "M3",
-        "n": "M3 attacks — A1 outlet if slide"
-      },
-      {
-        "t": 6.5,
-        "p": {
-          "M3": [
-            36.3,
-            26.4
-          ],
-          "A1": [
-            30.6,
-            28.1
-          ]
-        },
         "b": "A1",
-        "n": "M3 finishes or A1 scores on slide"
+        "n": "M3 attacks — A1 outlet if slide"
       },
       {
         "t": 7,
         "p": {
           "A1": [
-            30.8,
-            28.4
+            30.9,
+            29.3
           ]
         },
         "b": "G"
