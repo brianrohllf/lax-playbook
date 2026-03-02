@@ -27,6 +27,10 @@ An interactive, animated playbook for the Ossining high school women's lacrosse 
 | Carolina | Motion | CCW attack wheel — drive and dish cycle |
 | T-Bone | Stack | Picket fence — cutters peel off stack around 8m arc |
 | Mercy | ISO | Clear out — create a wide driving lane for M3 |
+| Boston | Motion | 3-player weave with outlet and GLE flash |
+| Starburst | Settled | Draw & dump — force the slide, 2-man game |
+| Diesel | Motion | Criss cross into pick & roll |
+| Viper | Stack | Backdoor stack — cuts behind the crease |
 
 ## How to Use
 
