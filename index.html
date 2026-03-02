@@ -111,15 +111,15 @@ canvas#field{border-radius:10px;display:block}
     <div class="cat-tab" data-cat="stack">Stack</div>
     <div class="cat-tab" data-cat="iso">ISO</div>
   </div>
-  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item active" data-id="play7"><div class="play-name">Boston</div><div class="play-concept">Untitled Concept</div><div class="play-cat">motion</div></div></div>
+  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item active" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div></div>
   <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
 </div>
 
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="1067" height="671"></canvas>
-      <div class="annotation-box visible" id="annoBox">Starting formation</div>
+      <canvas id="field" width="1067" height="671" style="cursor: default;"></canvas>
+      <div class="annotation-box visible" id="annoBox">[KF 1] Stack set at right GLE</div>
     </div>
   </div>
   <div class="controls">
@@ -136,26 +136,44 @@ canvas#field{border-radius:10px;display:block}
     <label class="tog-paths"><input type="checkbox" id="showPaths" checked=""> Paths</label>
     <label class="tog-paths"><input type="checkbox" id="showOff" checked=""> Off</label>
     <label class="tog-paths"><input type="checkbox" id="showDef" checked=""> Def</label>
-    <button class="edit-toggle" id="editToggle">Edit</button>
+    <button class="edit-toggle active" id="editToggle">Edit</button>
     <button class="edit-toggle" id="saveBtn" title="Download updated playbook HTML">Save to File</button>
+    <button class="edit-toggle" id="resetOrigBtn" title="Discard all edits and restore original plays">Reset to Original</button>
   </div>
-  <div class="edit-bar" id="editBar" style="display:none">
-    <button class="eb" id="ebPrev" title="Previous keyframe">« Prev</button>
-    <span class="kf-label" id="kfLabel">KF 1 / 1</span>
+  <div class="edit-bar" id="editBar" style="display: flex;">
+    <button class="eb" id="ebPrev" title="Previous keyframe" disabled="">« Prev</button>
+    <span class="kf-label" id="kfLabel">KF 1 / 9</span>
     <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
     <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1" selected="">M1</option><option value="M2">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
     <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
   </div>
-  <div class="details" id="details"><h2>Boston</h2><div class="sub">Untitled Concept</div><span class="form-tag">3-2-2</span><p>Weave - A simpler version of the Syracuse. Run this after Nike.</p><div class="coach"><strong>Coaching:</strong> </div></div>
+  <div class="meta-edit" id="details">
+      <div class="meta-row">
+        <div><label>Play Name</label><input id="metaName" value="T-Bone"></div>
+        <div><label>Category</label><select id="metaCat">
+          <option value="settled">Settled</option>
+          <option value="motion">Motion</option>
+          <option value="stack" selected="">Stack</option>
+          <option value="iso">ISO</option>
+        </select></div>
+        <div><label>Formation</label><input id="metaForm" value="Stack" style="width:80px"></div>
+      </div>
+      <label>Subtitle / Concept</label><input id="metaSub" value="Picket Fence — Stack at GLE">
+      <label>Description</label><textarea id="metaDesc" rows="2">Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.</textarea>
+      <label>Coaching Notes</label><textarea id="metaCoach" rows="2">Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.</textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
+        <button class="del-play-btn" id="delPlayBtn">Delete This Play</button>
+        <span style="font-size:11px;color:#555">ID: tbone</span>
+      </div></div>
 </div>
 
 <script>
@@ -1137,7 +1155,7 @@ const PLAYS = [
     "sub": "Picket Fence — Stack at GLE",
     "cat": "stack",
     "form": "Stack",
-    "desc": "Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.",
+    "desc": "Attackers stacked at right GLE. Mids spread high left and pass the ball around. Cutters peel off the stack and run around the OUTSIDE of the 8m arc, using the line as a natural screen against defenders.  This formation looks similar to Boston and provides different play with similar look.",
     "coach": "Cutters run outside the 8m — the arc is your screen. First cutters are decoys, last cutter is the primary look. Middie feeding is flexible — any mid with the best angle can make the feed. 3-second rule: keep moving through the 8m.",
     "dur": 8,
     "kf": [
@@ -1620,20 +1638,20 @@ const PLAYS = [
     ]
   },
   {
-    "id": "play7",
+    "id": "boston",
     "name": "Boston",
-    "sub": "Untitled Concept",
+    "sub": "3-Player Weave — Outlet & GLE Flash",
     "cat": "motion",
     "form": "3-2-2",
-    "desc": "Weave - A simpler version of the Syracuse. Run this after Nike.",
-    "coach": "",
+    "desc": "A simpler version of the Syracuse weave using only M1, M2, and M3. Run this after Nike to keep the ball moving. The three middies weave across the top while A1 holds as an outlet. A3 and A4 stay low near GLE — they flash up toward the 8m to pin their defenders and prevent them from crashing the weave. M1 looks for a lane to drive or feeds A2 as the outlet on the weak side. This formation looks similar to TBone and provides different play with similar look.",
+    "coach": "Run this right after Nike while the defense is still shifting. The weave is simple: pass and cut behind. M2 starts with the ball and passes to M1 cutting across. M1 can fake the flip to M3 and drive hard to goal. A3 and A4 flash up to keep D6 and D7 from helping — if your defender slides to the ball, you're open. A2 is the safety outlet on the weak side. A1 reads the play and positions for a rebound or secondary look.",
     "dur": 6,
     "kf": [
       {
         "t": 0,
         "p": {
           "M1": [
-            21.9,
+            48.1,
             15.4
           ],
           "M2": [
@@ -1641,51 +1659,51 @@ const PLAYS = [
             12
           ],
           "M3": [
-            48,
+            22,
             15
           ],
           "A1": [
-            22.9,
+            47.1,
             31.1
           ],
           "A2": [
-            52,
+            18,
             24
           ],
           "A3": [
-            24,
+            46,
             32.2
           ],
           "A4": [
-            21.9,
+            48.1,
             32.2
           ],
           "D1": [
-            26.9,
+            43.1,
             22.1
           ],
           "D2": [
-            35.9,
+            34.1,
             20.1
           ],
           "D3": [
-            43.4,
+            26.6,
             23.3
           ],
           "D4": [
-            23.4,
+            46.6,
             27.9
           ],
           "D5": [
-            45.8,
+            24.2,
             28
           ],
           "D6": [
-            27.5,
+            42.5,
             31.9
           ],
           "D7": [
-            42.7,
+            27.3,
             31.4
           ],
           "G": [
@@ -1694,158 +1712,161 @@ const PLAYS = [
           ]
         },
         "b": "M2",
-        "n": "Starting formation"
+        "n": "Formation — ball with M2. Run after Nike."
       },
       {
         "t": 1.5,
         "p": {
           "M1": [
-            30.5,
+            39.5,
             14.3
           ],
           "M2": [
-            27.3,
+            42.7,
             12.6
           ],
           "D2": [
-            30,
+            40,
             19.7
           ],
           "D1": [
-            32,
+            38,
             19.8
           ],
           "A3": [
-            27.5,
+            42.5,
             28.7
           ]
         },
-        "b": "M1"
+        "b": "M1",
+        "n": "M2 passes to M1 cutting across — A3 flashes up"
       },
       {
         "t": 2.25,
         "p": {
           "M2": [
-            22.1,
+            47.9,
             16.8
           ],
           "M1": [
-            37,
+            33,
             13.1
           ],
           "M3": [
-            37,
+            33,
             15.1
           ],
           "D3": [
-            36.7,
+            33.3,
             19.1
           ],
           "D1": [
-            39.2,
+            30.8,
             18.1
           ],
           "D2": [
-            25.1,
+            44.9,
             21.1
           ],
           "A3": [
-            25.2,
+            44.8,
             33.5
           ],
           "A4": [
-            26.5,
+            43.5,
             29.3
           ]
         },
         "b": "M1",
-        "n": "M1 Fake Flip to M3"
+        "n": "M1 fakes flip to M3 — A4 flashes up to pin D7"
       },
       {
         "t": 2.81,
         "p": {
           "M1": [
-            39.1,
+            30.9,
             26.1
           ],
           "M3": [
-            31.4,
+            38.6,
             24.7
           ],
           "A4": [
-            24.4,
+            45.6,
             33.2
           ],
           "A2": [
-            48.8,
+            21.2,
             28.4
           ],
           "D1": [
-            38.1,
+            31.9,
             25.1
           ],
           "D3": [
-            33.6,
+            36.4,
             23.8
           ],
           "M2": [
-            22.5,
+            47.5,
             17
           ],
           "D2": [
-            25.5,
+            44.5,
             21
           ],
           "A1": [
-            25.9,
+            44.1,
             29.9
           ],
           "A3": [
-            23.1,
+            46.9,
             32.2
           ]
         },
         "b": "M1",
-        "n": "M1 Shot, or A2 Outlet"
+        "n": "M1 drives to goal — A2 outlet if defense slides"
       },
       {
         "t": 3.1,
         "p": {
           "M1": [
-            38,
+            32,
             27.5
           ],
           "M3": [
-            29.9,
+            40.1,
             29.1
           ],
           "D1": [
-            37.6,
+            32.4,
             25.6
           ],
           "D3": [
-            32.3,
+            37.7,
             29.2
           ],
           "A1": [
-            24.8,
+            45.2,
             33.6
           ],
           "A3": [
-            25.9,
+            44.1,
             30.1
           ],
           "A4": [
-            22.7,
+            47.3,
             32.1
           ]
         },
-        "b": "M1"
+        "b": "M1",
+        "n": "M1 attacks — M3 crashes for rebound"
       },
       {
         "t": 4,
         "p": {},
-        "b": "G"
+        "b": "G",
+        "n": "Shot on goal"
       }
     ]
   }
@@ -2561,6 +2582,13 @@ document.getElementById('ebNote').addEventListener('input',e=>{
 // --- Save to File ---
 document.getElementById('ebSave').addEventListener('click',saveToFile);
 document.getElementById('saveBtn').addEventListener('click',saveToFile);
+
+// --- Reset to Original ---
+document.getElementById('resetOrigBtn').addEventListener('click',()=>{
+  if(!confirm('Discard ALL edits and restore every play to its original state? This cannot be undone.')) return;
+  localStorage.removeItem(LS_KEY);
+  location.reload();
+});
 
 // --- Copy JSON ---
 document.getElementById('ebCopy').addEventListener('click',()=>{
