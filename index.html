@@ -3465,9 +3465,22 @@ function createNewPlay(){
   setTimeout(()=>{const n=document.getElementById('metaName');if(n){n.focus();n.select()}},100);
 }
 
+let delConfirmTimer=null;
 function deleteCurrentPlay(){
   if(!curPlay) return;
-  if(!confirm('Delete "'+curPlay.name+'"? This cannot be undone.')) return;
+  const btn=document.getElementById('delPlayBtn');
+  if(!btn) return;
+  // Two-click confirm: first click arms, second click deletes
+  if(btn.dataset.armed!=='true'){
+    btn.dataset.armed='true';
+    btn.textContent='Confirm Delete?';
+    btn.style.borderColor='#f44';btn.style.color='#f44';btn.style.background='#3a1a1a';
+    clearTimeout(delConfirmTimer);
+    delConfirmTimer=setTimeout(()=>{btn.dataset.armed='';btn.textContent='Delete This Play';btn.style.borderColor='';btn.style.color='';btn.style.background=''},3000);
+    return;
+  }
+  clearTimeout(delConfirmTimer);
+  btn.dataset.armed='';
   const idx=PLAYS.indexOf(curPlay);
   if(idx>-1) PLAYS.splice(idx,1);
   autoSave();
