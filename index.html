@@ -118,14 +118,14 @@ canvas#field{border-radius:10px;display:block}
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="940" height="591" style="cursor: default;"></canvas>
-      <div class="annotation-box visible" id="annoBox">Ball with M2</div>
+      <canvas id="field" width="1544" height="971" style="cursor: default;"></canvas>
+      <div class="annotation-box visible" id="annoBox">M3 attacks — A1 outlet if slide</div>
     </div>
   </div>
   <div class="controls">
     <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
     <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
-    <span class="time-disp" id="timeDisp">0.0s</span>
+    <span class="time-disp" id="timeDisp">7.0s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
@@ -141,15 +141,15 @@ canvas#field{border-radius:10px;display:block}
     <button class="edit-toggle" id="resetOrigBtn" title="Discard all edits and restore original plays">Reset to Original</button>
   </div>
   <div class="edit-bar" id="editBar" style="display: none;">
-    <button class="eb" id="ebPrev" title="Previous keyframe" disabled="">« Prev</button>
-    <span class="kf-label" id="kfLabel">KF 1 / 8</span>
+    <button class="eb" id="ebPrev" title="Previous keyframe">« Prev</button>
+    <span class="kf-label" id="kfLabel">KF 6 / 8</span>
     <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
     <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2" selected="">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2">M2</option><option value="M3" selected="">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
@@ -235,8 +235,8 @@ const PLAYS = [
             24
           ],
           "A3": [
-            22,
-            37
+            23.8,
+            36.8
           ],
           "A4": [
             46.3,
@@ -253,6 +253,10 @@ const PLAYS = [
           "G": [
             35,
             32.6
+          ],
+          "D5": [
+            48.2,
+            26
           ]
         },
         "b": "A2",
@@ -262,12 +266,12 @@ const PLAYS = [
         "t": 1.2,
         "p": {
           "A4": [
-            47.5,
-            33.5
+            51.6,
+            35
           ],
           "A2": [
-            50.9,
-            25.6
+            52.2,
+            24
           ],
           "D7": [
             45,
@@ -278,46 +282,80 @@ const PLAYS = [
             26.7
           ]
         },
+        "b": "A2",
+        "n": "A4 Pops Out"
+      },
+      {
+        "t": 1.85,
+        "p": {},
         "b": "A4",
-        "n": "A2 passes to A4 at GLE"
+        "n": "A2 passes to A4"
       },
       {
         "t": 2.5,
         "p": {
           "A2": [
-            48.3,
-            29.6
+            43.4,
+            29.1
           ],
           "A4": [
-            49,
-            30.3
+            48.5,
+            33.4
           ],
           "D7": [
-            46.2,
-            30.1
+            45.3,
+            31.4
           ],
           "D5": [
-            46.7,
+            42.3,
             28.5
+          ],
+          "A1": [
+            28.4,
+            27.6
+          ],
+          "D4": [
+            30.1,
+            28.3
+          ],
+          "A3": [
+            24,
+            33.8
           ]
         },
         "b": "A4",
-        "n": "A2 moves down to set pick above GLE"
+        "n": "A2 cuts to set pick on D7"
       },
       {
         "t": 3.2,
         "p": {
           "A2": [
-            47.5,
-            30.4
+            44.6,
+            30.9
           ],
           "A4": [
-            46.9,
-            26
+            47.9,
+            32.5
           ],
           "D7": [
-            45.6,
-            27.9
+            46.2,
+            31.4
+          ],
+          "D5": [
+            42.2,
+            29.3
+          ],
+          "A1": [
+            27.9,
+            30.7
+          ],
+          "D4": [
+            29.5,
+            29.8
+          ],
+          "A3": [
+            24.1,
+            32.3
           ]
         },
         "b": "A4",
@@ -327,20 +365,28 @@ const PLAYS = [
         "t": 4.2,
         "p": {
           "A4": [
-            42.2,
-            24.6
+            42.7,
+            25.8
           ],
           "A2": [
-            47.3,
-            30.6
+            45.2,
+            30.5
           ],
           "D5": [
-            44.1,
-            26.4
+            40.9,
+            27.6
           ],
           "D7": [
-            42.3,
-            26.7
+            47.2,
+            30.8
+          ],
+          "A3": [
+            28.2,
+            26.6
+          ],
+          "A1": [
+            30.5,
+            36.5
           ]
         },
         "b": "A4",
@@ -354,16 +400,28 @@ const PLAYS = [
             25
           ],
           "A2": [
-            45.7,
-            31.3
+            43.6,
+            31.2
           ],
           "D5": [
-            40.7,
-            25.3
+            38.4,
+            26.7
           ],
           "D7": [
-            38.3,
-            26.5
+            45.7,
+            31.5
+          ],
+          "A3": [
+            30.1,
+            25
+          ],
+          "D4": [
+            30.2,
+            28.7
+          ],
+          "A1": [
+            33.6,
+            38.8
           ]
         },
         "b": "A4",
@@ -373,20 +431,20 @@ const PLAYS = [
         "t": 6.2,
         "p": {
           "A4": [
-            34.1,
-            25.5
+            36,
+            27
           ],
           "A2": [
             38.5,
             30.1
           ],
           "D5": [
-            36.8,
-            24.9
+            35,
+            28.7
           ],
           "D7": [
-            34.2,
-            27.1
+            41.1,
+            30.7
           ]
         },
         "b": "A4",
@@ -439,12 +497,40 @@ const PLAYS = [
             24
           ],
           "A3": [
-            22,
-            37
+            22.5,
+            35.5
           ],
           "A4": [
-            48,
-            37
+            45.1,
+            35.8
+          ],
+          "D7": [
+            45.4,
+            30.6
+          ],
+          "D6": [
+            25.7,
+            31.3
+          ],
+          "D4": [
+            23,
+            27.7
+          ],
+          "D1": [
+            25.7,
+            19.3
+          ],
+          "D2": [
+            35.1,
+            19.6
+          ],
+          "D3": [
+            43,
+            22.1
+          ],
+          "D5": [
+            45.8,
+            26.6
           ]
         },
         "b": "M1",
@@ -1429,8 +1515,8 @@ const PLAYS = [
             21.9
           ],
           "D2": [
-            34,
-            20.4
+            34.7,
+            20.8
           ],
           "D3": [
             42.6,
@@ -1458,6 +1544,14 @@ const PLAYS = [
           "M1": [
             29.3,
             20.6
+          ],
+          "D1": [
+            28.8,
+            22.4
+          ],
+          "D2": [
+            35.6,
+            22.1
           ]
         },
         "b": "M3"
@@ -1466,28 +1560,36 @@ const PLAYS = [
         "t": 1.2,
         "p": {
           "M2": [
-            39.5,
-            21
+            40.2,
+            21.7
           ],
           "M1": [
-            36.2,
-            22.7
+            37.5,
+            21.6
           ],
           "M3": [
-            40.1,
-            17.8
+            44.5,
+            18.5
           ],
           "D1": [
-            33.3,
-            20.2
+            37.7,
+            23.3
           ],
           "D2": [
-            39.3,
-            18.7
+            40.5,
+            23.8
           ],
           "D3": [
-            43.6,
-            18.9
+            44.2,
+            22.1
+          ],
+          "A1": [
+            19.9,
+            26.9
+          ],
+          "A4": [
+            43.7,
+            33.8
           ]
         },
         "b": "M3",
@@ -1497,15 +1599,15 @@ const PLAYS = [
         "t": 2.2,
         "p": {
           "M2": [
-            50,
-            18
+            47.2,
+            19.5
           ],
           "M1": [
-            44,
-            18
+            44.2,
+            20.6
           ],
           "M3": [
-            32.4,
+            37.5,
             18.1
           ],
           "D2": [
@@ -1513,12 +1615,24 @@ const PLAYS = [
             21.9
           ],
           "D3": [
-            37.5,
-            19.3
+            39,
+            20.5
           ],
           "D1": [
             41.6,
             20.2
+          ],
+          "D4": [
+            24.7,
+            27.3
+          ],
+          "A1": [
+            22.8,
+            27.1
+          ],
+          "A4": [
+            40.5,
+            33.7
           ]
         },
         "b": "M3",
@@ -1528,40 +1642,48 @@ const PLAYS = [
         "t": 3,
         "p": {
           "M2": [
-            52,
-            22
+            49.7,
+            14.9
           ],
           "M1": [
-            48,
-            20
+            40.4,
+            14.8
           ],
           "M3": [
-            33.5,
-            23.8
+            32.2,
+            20.8
           ],
           "D3": [
-            37.5,
-            20.1
+            36.1,
+            21.4
           ],
           "D1": [
-            44.8,
-            22.6
+            41.9,
+            21
           ],
           "D2": [
-            46.9,
-            25.3
+            44.7,
+            22.7
           ],
           "D5": [
             47.3,
             28.3
           ],
           "D4": [
-            25.7,
-            27.1
+            29.8,
+            26.1
           ],
           "A1": [
-            20.2,
-            25.5
+            25.8,
+            28.1
+          ],
+          "A3": [
+            25.2,
+            34
+          ],
+          "A4": [
+            36.1,
+            39.3
           ]
         },
         "b": "M3",
@@ -1575,16 +1697,40 @@ const PLAYS = [
             25.5
           ],
           "A1": [
-            28.3,
-            29.1
+            29.9,
+            29.6
           ],
           "D4": [
-            33.6,
-            27.3
+            32.6,
+            26.3
           ],
           "D3": [
             37.4,
             24.6
+          ],
+          "M1": [
+            30.9,
+            16.3
+          ],
+          "M2": [
+            39.9,
+            16.9
+          ],
+          "D1": [
+            32.1,
+            19.8
+          ],
+          "D2": [
+            40.3,
+            19.9
+          ],
+          "D6": [
+            26.9,
+            31.9
+          ],
+          "A3": [
+            26.3,
+            33.6
           ]
         },
         "b": "M3",
@@ -1608,6 +1754,10 @@ const PLAYS = [
           "D3": [
             38.5,
             25.4
+          ],
+          "A3": [
+            26.8,
+            32.8
           ]
         },
         "b": "A1",
