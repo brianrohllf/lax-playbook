@@ -111,21 +111,21 @@ canvas#field{border-radius:10px;display:block}
     <div class="cat-tab" data-cat="stack">Stack</div>
     <div class="cat-tab" data-cat="iso">ISO</div>
   </div>
-  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll - 2 man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item active" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div><div class="play-item" data-id="phoenix"><div class="play-name">Starburst</div><div class="play-concept">Draw &amp; Dump — Force the Slide - 2 Man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="diesel"><div class="play-name">Diesel</div><div class="play-concept">Criss Cross — Into Pick &amp; Roll</div><div class="play-cat">motion</div></div><div class="play-item" data-id="viper"><div class="play-name">Viper</div><div class="play-concept">Backdoor Stack — Cut Behind the Crease</div><div class="play-cat">stack</div></div></div>
+  <div class="play-list" id="playList"><div class="play-item" data-id="skittles"><div class="play-name">Skittles</div><div class="play-concept">Pass Down, Pick Down — Pick &amp; Roll - 2 man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="nike"><div class="play-name">Nike</div><div class="play-concept">Ball Reversal — Settle the Offense</div><div class="play-cat">settled</div></div><div class="play-item" data-id="syracuse"><div class="play-name">Syracuse</div><div class="play-concept">Weave — Pass or Screen</div><div class="play-cat">motion</div></div><div class="play-item" data-id="carolina"><div class="play-name">Carolina</div><div class="play-concept">Attack Wheel — CCW Cycle</div><div class="play-cat">motion</div></div><div class="play-item" data-id="tbone"><div class="play-name">T-Bone</div><div class="play-concept">Picket Fence — Stack at GLE</div><div class="play-cat">stack</div></div><div class="play-item" data-id="mercy"><div class="play-name">Mercy</div><div class="play-concept">Isolation — Clear Out</div><div class="play-cat">iso</div></div><div class="play-item" data-id="boston"><div class="play-name">Boston</div><div class="play-concept">3-Player Weave — Outlet &amp; GLE Flash</div><div class="play-cat">motion</div></div><div class="play-item" data-id="phoenix"><div class="play-name">Starburst</div><div class="play-concept">Draw &amp; Dump — Force the Slide - 2 Man</div><div class="play-cat">settled</div></div><div class="play-item" data-id="diesel"><div class="play-name">Diesel</div><div class="play-concept">Criss Cross — Into Pick &amp; Roll</div><div class="play-cat">motion</div></div><div class="play-item" data-id="viper"><div class="play-name">Viper</div><div class="play-concept">Backdoor Stack — Cut Behind the Crease</div><div class="play-cat">stack</div></div><div class="play-item active" data-id="play11"><div class="play-name">Apex</div><div class="play-concept">High Stack</div><div class="play-cat">settled</div></div></div>
   <button class="new-play-btn" id="newPlayBtn">+ New Play</button>
 </div>
 
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="1544" height="971" style="cursor: default;"></canvas>
-      <div class="annotation-box visible" id="annoBox">M3 attacks — A1 outlet if slide</div>
+      <canvas id="field" width="1062" height="668" style="cursor: default;"></canvas>
+      <div class="annotation-box visible" id="annoBox">Shot</div>
     </div>
   </div>
   <div class="controls">
     <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
     <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
-    <span class="time-disp" id="timeDisp">7.0s</span>
+    <span class="time-disp" id="timeDisp">17.5s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
@@ -142,23 +142,21 @@ canvas#field{border-radius:10px;display:block}
   </div>
   <div class="edit-bar" id="editBar" style="display: none;">
     <button class="eb" id="ebPrev" title="Previous keyframe">« Prev</button>
-    <span class="kf-label" id="kfLabel">KF 6 / 8</span>
-    <button class="eb" id="ebNext" title="Next keyframe">Next »</button>
+    <span class="kf-label" id="kfLabel">KF 8 / 8</span>
+    <button class="eb" id="ebNext" title="Next keyframe" disabled="">Next »</button>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebAdd" title="Add keyframe after current">+ Add KF</button>
     <button class="eb eb-danger" id="ebDel" title="Delete current keyframe">× Del KF</button>
     <div class="eb-sep"></div>
     <span class="eb-lbl">t=<input type="number" class="eb-input" id="ebTime" style="width:55px" step="0.1" min="0"></span>
-    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2">M2</option><option value="M3" selected="">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G">G</option></select></span>
+    <span class="eb-lbl">Ball:<select class="eb-sel" id="ebBall"><option value="">(none)</option><option value="M1">M1</option><option value="M2">M2</option><option value="M3">M3</option><option value="A1">A1</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4</option><option value="G" selected="">G</option></select></span>
     <span class="eb-lbl">Note:<input type="text" class="eb-input" id="ebNote" placeholder="Annotation..."></span>
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
-    <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
+    <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px">Restored unsaved edits</span>
   </div>
-  <div class="details" id="details"><h2>Mercy</h2><div class="sub">Isolation — Clear Out</div><span class="form-tag">3-2-2</span><p>M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides. This is a good beginner play as it is a Right ISO play that most kids can execute.</p><div class="coach"><strong>Coaching:</strong> M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.
-
-VARIATION- You can run a  variation of this starting with A1 and A2 in front of the goal as a screen. When the iso starts they clear out to the wings. If the defender slides, they leave an attacker open on the perimeter. If they don’t slide, the ball carrier can attack the open lane. If they stay inside the 8 after the Attack clear out, it can generate a shooting space call.</div></div>
+  <div class="details" id="details"><h2>Apex</h2><div class="sub">High Stack</div><span class="form-tag">3-2-2</span><p></p><div class="coach"><strong>Coaching:</strong> If there isnt a feed and shot after the first run through, A3 passes back to A4 and all players regroup up top and rerun the play.</div></div>
 </div>
 
 <script>
@@ -2753,6 +2751,293 @@ const PLAYS = [
           ]
         },
         "b": "G"
+      }
+    ]
+  },
+  {
+    "id": "play11",
+    "name": "Apex",
+    "sub": "High Stack",
+    "cat": "settled",
+    "form": "3-2-2",
+    "desc": "",
+    "coach": "If there isnt a feed and shot after the first run through, A3 passes back to A4 and all players regroup up top and rerun the play.",
+    "dur": 17.5,
+    "kf": [
+      {
+        "t": 0,
+        "p": {
+          "M1": [
+            36.1,
+            14.4
+          ],
+          "M2": [
+            34.5,
+            9.5
+          ],
+          "M3": [
+            37,
+            11.9
+          ],
+          "A1": [
+            34.3,
+            12.3
+          ],
+          "A2": [
+            33.7,
+            15.1
+          ],
+          "A3": [
+            22,
+            37
+          ],
+          "A4": [
+            40.1,
+            35.8
+          ],
+          "D1": [
+            33.3,
+            17.8
+          ],
+          "D2": [
+            35.7,
+            17.5
+          ],
+          "D3": [
+            38,
+            19.3
+          ],
+          "D4": [
+            38.4,
+            16.8
+          ],
+          "D5": [
+            31.8,
+            19.9
+          ],
+          "D6": [
+            26.6,
+            30.8
+          ],
+          "D7": [
+            42.9,
+            30.7
+          ],
+          "G": [
+            35,
+            32.8
+          ]
+        },
+        "b": "A3",
+        "n": "Starting formation"
+      },
+      {
+        "t": 3,
+        "p": {
+          "A4": [
+            41.5,
+            33.6
+          ],
+          "A3": [
+            26.7,
+            36
+          ],
+          "A2": [
+            34.9,
+            20.5
+          ],
+          "D7": [
+            41.2,
+            29.9
+          ],
+          "D3": [
+            36.2,
+            21.1
+          ]
+        },
+        "b": "A3",
+        "n": "A2 Single high cutter "
+      },
+      {
+        "t": 6,
+        "p": {
+          "A2": [
+            34.7,
+            27.7
+          ],
+          "A4": [
+            42,
+            33.6
+          ],
+          "D7": [
+            41.5,
+            30.7
+          ],
+          "D3": [
+            35.6,
+            25.9
+          ],
+          "A3": [
+            30.5,
+            36.1
+          ],
+          "D6": [
+            30.6,
+            31.1
+          ]
+        },
+        "b": "A3",
+        "n": "We are looking to feed if open, but this is also a smoke screen"
+      },
+      {
+        "t": 9,
+        "p": {
+          "A2": [
+            41.4,
+            18.3
+          ],
+          "D3": [
+            40.7,
+            20.7
+          ],
+          "D7": [
+            39.7,
+            27.5
+          ],
+          "D6": [
+            30.8,
+            31
+          ],
+          "M2": [
+            31.5,
+            17.8
+          ],
+          "A4": [
+            38.2,
+            28.4
+          ],
+          "M1": [
+            37.4,
+            18.6
+          ]
+        },
+        "b": "A3",
+        "n": "A2 Clear out, M1 M2 cut A4 Crease roll"
+      },
+      {
+        "t": 11,
+        "p": {
+          "A3": [
+            37.1,
+            35.7
+          ],
+          "D6": [
+            36.5,
+            28.4
+          ],
+          "A4": [
+            34.3,
+            28.2
+          ],
+          "D7": [
+            34.5,
+            27.9
+          ],
+          "M2": [
+            30.8,
+            25.3
+          ],
+          "D5": [
+            35.6,
+            23.1
+          ],
+          "M1": [
+            38.1,
+            23.4
+          ],
+          "D4": [
+            37.9,
+            21.7
+          ]
+        },
+        "b": "A3",
+        "n": "Looking to feed"
+      },
+      {
+        "t": 15,
+        "p": {
+          "A3": [
+            40.1,
+            34.8
+          ],
+          "A4": [
+            30.3,
+            29.4
+          ],
+          "D6": [
+            40.2,
+            29.8
+          ],
+          "D7": [
+            31.3,
+            29
+          ],
+          "M2": [
+            33.2,
+            25.8
+          ],
+          "M1": [
+            38.3,
+            26.4
+          ],
+          "D5": [
+            36,
+            25.2
+          ],
+          "D4": [
+            38.6,
+            23.3
+          ]
+        },
+        "b": "A3",
+        "n": "Looking to feed"
+      },
+      {
+        "t": 17,
+        "p": {
+          "A4": [
+            27.4,
+            34.6
+          ],
+          "D7": [
+            28.5,
+            30.9
+          ],
+          "M2": [
+            32.4,
+            27.7
+          ],
+          "D4": [
+            38.5,
+            24.5
+          ],
+          "M1": [
+            38.3,
+            27.3
+          ],
+          "D5": [
+            35.8,
+            24.4
+          ]
+        },
+        "b": "M2",
+        "n": "Feed. A4 replaces A3"
+      },
+      {
+        "t": 17.5,
+        "p": {},
+        "b": "G",
+        "n": "Shot"
       }
     ]
   }
