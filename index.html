@@ -118,14 +118,14 @@ canvas#field{border-radius:10px;display:block}
 <div class="main">
   <div class="field-container">
     <div class="field-wrapper">
-      <canvas id="field" width="1062" height="668" style="cursor: default;"></canvas>
+      <canvas id="field" width="1005" height="632" style="cursor: default;"></canvas>
       <div class="annotation-box visible" id="annoBox">Shot</div>
     </div>
   </div>
   <div class="controls">
     <button class="ctrl-btn" id="resetBtn" title="Reset">⏮</button>
     <button class="ctrl-btn" id="playBtn" title="Play / Pause">▶</button>
-    <span class="time-disp" id="timeDisp">17.5s</span>
+    <span class="time-disp" id="timeDisp">12.5s</span>
     <input type="range" class="scrubber" id="scrubber" min="0" max="1000" value="0">
     <select class="speed-sel" id="speedSel">
       <option value="0.5">0.5x</option>
@@ -154,9 +154,10 @@ canvas#field{border-radius:10px;display:block}
     <div class="eb-sep"></div>
     <button class="eb eb-gold" id="ebCopy" title="Copy play JSON to clipboard">Copy JSON</button>
     <button class="eb eb-gold" id="ebSave" title="Save changes permanently into file">Save to File</button>
-    <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px">Restored unsaved edits</span>
+    <span id="saveStatus" style="font-size:11px;color:#4a4;margin-left:4px"></span>
   </div>
-  <div class="details" id="details"><h2>Apex</h2><div class="sub">High Stack</div><span class="form-tag">3-2-2</span><p></p><div class="coach"><strong>Coaching:</strong> If there isnt a feed and shot after the first run through, A3 passes back to A4 and all players regroup up top and rerun the play.</div></div>
+  <div class="details" id="details"><h2>Apex</h2><div class="sub">High Stack</div><span class="form-tag">3-2-2</span><p>High stack with A3 A4 rotating around goal feeding and crease rolling. Initial cut from top is a smoke screen... an easy to defend single cut. Followed immediately by 3 simultaneous cuts.</p><div class="coach"><strong>Coaching:</strong> Cutters need to show change of speed and surprise. Use the stack as a screen up top and cut from both sides.
+If play completes without a feed then A3-&gt;A4 and start over.</div></div>
 </div>
 
 <script>
@@ -233,8 +234,8 @@ const PLAYS = [
             24
           ],
           "A3": [
-            23.8,
-            36.8
+            22,
+            37
           ],
           "A4": [
             46.3,
@@ -251,10 +252,6 @@ const PLAYS = [
           "G": [
             35,
             32.6
-          ],
-          "D5": [
-            48.2,
-            26
           ]
         },
         "b": "A2",
@@ -264,12 +261,12 @@ const PLAYS = [
         "t": 1.2,
         "p": {
           "A4": [
-            51.6,
-            35
+            47.5,
+            33.5
           ],
           "A2": [
-            52.2,
-            24
+            50.9,
+            25.6
           ],
           "D7": [
             45,
@@ -280,80 +277,46 @@ const PLAYS = [
             26.7
           ]
         },
-        "b": "A2",
-        "n": "A4 Pops Out"
-      },
-      {
-        "t": 1.85,
-        "p": {},
         "b": "A4",
-        "n": "A2 passes to A4"
+        "n": "A2 passes to A4 at GLE"
       },
       {
         "t": 2.5,
         "p": {
           "A2": [
-            43.4,
-            29.1
+            48.3,
+            29.6
           ],
           "A4": [
-            48.5,
-            33.4
+            49,
+            30.3
           ],
           "D7": [
-            45.3,
-            31.4
+            46.2,
+            30.1
           ],
           "D5": [
-            42.3,
+            46.7,
             28.5
-          ],
-          "A1": [
-            28.4,
-            27.6
-          ],
-          "D4": [
-            30.1,
-            28.3
-          ],
-          "A3": [
-            24,
-            33.8
           ]
         },
         "b": "A4",
-        "n": "A2 cuts to set pick on D7"
+        "n": "A2 moves down to set pick above GLE"
       },
       {
         "t": 3.2,
         "p": {
           "A2": [
-            44.6,
-            30.9
+            47.5,
+            30.4
           ],
           "A4": [
-            47.9,
-            32.5
+            46.9,
+            26
           ],
           "D7": [
-            46.2,
-            31.4
-          ],
-          "D5": [
-            42.2,
-            29.3
-          ],
-          "A1": [
-            27.9,
-            30.7
-          ],
-          "D4": [
-            29.5,
-            29.8
-          ],
-          "A3": [
-            24.1,
-            32.3
+            45.6,
+            27.9
           ]
         },
         "b": "A4",
@@ -363,28 +326,20 @@ const PLAYS = [
         "t": 4.2,
         "p": {
           "A4": [
-            42.7,
-            25.8
+            42.2,
+            24.6
           ],
           "A2": [
-            45.2,
-            30.5
+            47.3,
+            30.6
           ],
           "D5": [
-            40.9,
-            27.6
+            44.1,
+            26.4
           ],
           "D7": [
-            47.2,
-            30.8
-          ],
-          "A3": [
-            28.2,
-            26.6
-          ],
-          "A1": [
-            30.5,
-            36.5
+            42.3,
+            26.7
           ]
         },
         "b": "A4",
@@ -398,28 +353,16 @@ const PLAYS = [
             25
           ],
           "A2": [
-            43.6,
-            31.2
+            45.7,
+            31.3
           ],
           "D5": [
-            38.4,
-            26.7
+            40.7,
+            25.3
           ],
           "D7": [
-            45.7,
-            31.5
-          ],
-          "A3": [
-            30.1,
-            25
-          ],
-          "D4": [
-            30.2,
-            28.7
-          ],
-          "A1": [
-            33.6,
-            38.8
+            38.3,
+            26.5
           ]
         },
         "b": "A4",
@@ -429,20 +372,20 @@ const PLAYS = [
         "t": 6.2,
         "p": {
           "A4": [
-            36,
-            27
+            34.1,
+            25.5
           ],
           "A2": [
             38.5,
             30.1
           ],
           "D5": [
-            35,
-            28.7
+            36.8,
+            24.9
           ],
           "D7": [
-            41.1,
-            30.7
+            34.2,
+            27.1
           ]
         },
         "b": "A4",
@@ -495,40 +438,12 @@ const PLAYS = [
             24
           ],
           "A3": [
-            22.5,
-            35.5
+            22,
+            37
           ],
           "A4": [
-            45.1,
-            35.8
-          ],
-          "D7": [
-            45.4,
-            30.6
-          ],
-          "D6": [
-            25.7,
-            31.3
-          ],
-          "D4": [
-            23,
-            27.7
-          ],
-          "D1": [
-            25.7,
-            19.3
-          ],
-          "D2": [
-            35.1,
-            19.6
-          ],
-          "D3": [
-            43,
-            22.1
-          ],
-          "D5": [
-            45.8,
-            26.6
+            48,
+            37
           ]
         },
         "b": "M1",
@@ -1461,28 +1376,28 @@ const PLAYS = [
     "sub": "Isolation — Clear Out",
     "cat": "iso",
     "form": "3-2-2",
-    "desc": "M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides. This is a good beginner play as it is a Right ISO play that most kids can execute.",
-    "coach": "M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.\n\nVARIATION- You can run a  variation of this starting with A1 and A2 in front of the goal as a screen. When the iso starts they clear out to the wings. If the defender slides, they leave an attacker open on the perimeter. If they don’t slide, the ball carrier can attack the open lane. If they stay inside the 8 after the Attack clear out, it can generate a shooting space call.",
+    "desc": "M2 passes to M3. Simultaneously, M1 and M2 clear out toward A2’s side to pull defenders and create a wide driving lane. M3 drives to goal through the open space. A1 is the outlet and has a scoring opportunity if the defender slides.",
+    "coach": "M1 and M2 start clearing AT THE SAME TIME as the pass — get out fast, take your defenders with you. M3 attacks immediately while the lane is wide open. A1 reads the slide and looks for a scoring chance if the defense collapses on M3.",
     "dur": 7,
     "kf": [
       {
         "t": 0,
         "p": {
           "M1": [
-            24.7,
-            19.6
+            24,
+            18.6
           ],
           "M2": [
-            34.6,
-            17.3
+            32.8,
+            15.4
           ],
           "M3": [
-            45.8,
-            19.6
+            47.5,
+            17.4
           ],
           "A1": [
-            16.4,
-            26.8
+            17.2,
+            25.2
           ],
           "A2": [
             52.3,
@@ -1497,24 +1412,24 @@ const PLAYS = [
             36
           ],
           "D6": [
-            27.6,
-            32.1
-          ],
-          "D7": [
-            43,
+            25.6,
             31.9
           ],
+          "D7": [
+            45.1,
+            32
+          ],
           "D4": [
-            24.3,
-            27.7
+            24,
+            26.1
           ],
           "D1": [
             28,
             21.9
           ],
           "D2": [
-            34.7,
-            20.8
+            34,
+            20.4
           ],
           "D3": [
             42.6,
@@ -1529,65 +1444,31 @@ const PLAYS = [
         "n": "Ball with M2"
       },
       {
-        "t": 0.6,
-        "p": {
-          "M2": [
-            35.7,
-            20.1
-          ],
-          "M3": [
-            44.9,
-            19.6
-          ],
-          "M1": [
-            29.3,
-            20.6
-          ],
-          "D1": [
-            28.8,
-            22.4
-          ],
-          "D2": [
-            35.6,
-            22.1
-          ]
-        },
-        "b": "M3"
-      },
-      {
         "t": 1.2,
         "p": {
           "M2": [
-            40.2,
-            21.7
+            38.5,
+            15.7
           ],
           "M1": [
-            37.5,
-            21.6
+            33.6,
+            16.8
           ],
           "M3": [
-            44.5,
-            18.5
+            43.5,
+            16.2
           ],
           "D1": [
-            37.7,
-            23.3
+            33.3,
+            20.2
           ],
           "D2": [
-            40.5,
-            23.8
+            39.3,
+            18.7
           ],
           "D3": [
-            44.2,
-            22.1
-          ],
-          "A1": [
-            19.9,
-            26.9
-          ],
-          "A4": [
-            43.7,
-            33.8
+            43.6,
+            18.9
           ]
         },
         "b": "M3",
@@ -1597,40 +1478,28 @@ const PLAYS = [
         "t": 2.2,
         "p": {
           "M2": [
-            47.2,
-            19.5
+            50,
+            18
           ],
           "M1": [
-            44.2,
-            20.6
+            44,
+            18
           ],
           "M3": [
-            37.5,
-            18.1
+            37.2,
+            14.9
           ],
           "D2": [
             45.3,
             21.9
           ],
           "D3": [
-            39,
-            20.5
+            39.5,
+            18.5
           ],
           "D1": [
             41.6,
             20.2
-          ],
-          "D4": [
-            24.7,
-            27.3
-          ],
-          "A1": [
-            22.8,
-            27.1
-          ],
-          "A4": [
-            40.5,
-            33.7
           ]
         },
         "b": "M3",
@@ -1640,48 +1509,40 @@ const PLAYS = [
         "t": 3,
         "p": {
           "M2": [
-            49.7,
-            14.9
+            52,
+            22
           ],
           "M1": [
-            40.4,
-            14.8
+            48,
+            20
           ],
           "M3": [
-            32.2,
-            20.8
+            36.2,
+            19.9
           ],
           "D3": [
-            36.1,
-            21.4
+            38.6,
+            19.6
           ],
           "D1": [
-            41.9,
-            21
+            44.8,
+            22.6
           ],
           "D2": [
-            44.7,
-            22.7
+            46.9,
+            25.3
           ],
           "D5": [
             47.3,
             28.3
           ],
           "D4": [
-            29.8,
-            26.1
+            28,
+            27
           ],
           "A1": [
-            25.8,
-            28.1
-          ],
-          "A3": [
-            25.2,
-            34
-          ],
-          "A4": [
-            36.1,
-            39.3
+            20.2,
+            25.5
           ]
         },
         "b": "M3",
@@ -1691,44 +1552,20 @@ const PLAYS = [
         "t": 4.5,
         "p": {
           "M3": [
-            34.6,
-            25.5
+            36.2,
+            25
           ],
           "A1": [
-            29.9,
-            29.6
+            27.6,
+            27.3
           ],
           "D4": [
-            32.6,
-            26.3
+            33.6,
+            27.3
           ],
           "D3": [
-            37.4,
-            24.6
-          ],
-          "M1": [
-            30.9,
-            16.3
-          ],
-          "M2": [
-            39.9,
-            16.9
-          ],
-          "D1": [
-            32.1,
-            19.8
-          ],
-          "D2": [
-            40.3,
-            19.9
-          ],
-          "D6": [
-            26.9,
-            31.9
-          ],
-          "A3": [
-            26.3,
-            33.6
+            39.3,
+            23.3
           ]
         },
         "b": "M3",
@@ -1742,8 +1579,8 @@ const PLAYS = [
             25.8
           ],
           "A1": [
-            30.1,
-            29.7
+            28,
+            28
           ],
           "D4": [
             34.1,
@@ -1752,21 +1589,32 @@ const PLAYS = [
           "D3": [
             38.5,
             25.4
+          ]
+        },
+        "b": "M3",
+        "n": "M3 attacks — A1 outlet if slide"
+      },
+      {
+        "t": 6.5,
+        "p": {
+          "M3": [
+            36.3,
+            26.4
           ],
-          "A3": [
-            26.8,
-            32.8
+          "A1": [
+            30.6,
+            28.1
           ]
         },
         "b": "A1",
-        "n": "M3 attacks — A1 outlet if slide"
+        "n": "M3 finishes or A1 scores on slide"
       },
       {
         "t": 7,
         "p": {
           "A1": [
-            30.9,
-            29.3
+            30.8,
+            28.4
           ]
         },
         "b": "G"
@@ -2760,68 +2608,68 @@ const PLAYS = [
     "sub": "High Stack",
     "cat": "settled",
     "form": "3-2-2",
-    "desc": "",
-    "coach": "If there isnt a feed and shot after the first run through, A3 passes back to A4 and all players regroup up top and rerun the play.",
-    "dur": 17.5,
+    "desc": "High stack with A3 A4 rotating around goal feeding and crease rolling. Initial cut from top is a smoke screen... an easy to defend single cut. Followed immediately by 3 simultaneous cuts.",
+    "coach": "Cutters need to show change of speed and surprise. Use the stack as a screen up top and cut from both sides.\nIf play completes without a feed then A3->A4 and start over.",
+    "dur": 13.2,
     "kf": [
       {
         "t": 0,
         "p": {
           "M1": [
-            36.1,
-            14.4
+            32.3,
+            11.8
           ],
           "M2": [
-            34.5,
-            9.5
+            33.3,
+            13.5
           ],
           "M3": [
-            37,
-            11.9
+            35.6,
+            14.3
           ],
           "A1": [
-            34.3,
-            12.3
+            31.6,
+            14.9
           ],
           "A2": [
-            33.7,
-            15.1
+            34,
+            15.7
           ],
           "A3": [
-            22,
-            37
+            23.1,
+            35
           ],
           "A4": [
-            40.1,
-            35.8
+            42.2,
+            35.5
           ],
           "D1": [
-            33.3,
-            17.8
+            32.6,
+            18.2
           ],
           "D2": [
-            35.7,
-            17.5
+            35.1,
+            17.4
           ],
           "D3": [
-            38,
-            19.3
+            36.8,
+            19.6
           ],
           "D4": [
-            38.4,
-            16.8
-          ],
-          "D5": [
-            31.8,
+            33.3,
             19.9
           ],
+          "D5": [
+            35.7,
+            20.5
+          ],
           "D6": [
-            26.6,
-            30.8
+            27.8,
+            30.9
           ],
           "D7": [
-            42.9,
-            30.7
+            40.6,
+            31.1
           ],
           "G": [
             35,
@@ -2834,207 +2682,178 @@ const PLAYS = [
       {
         "t": 3,
         "p": {
-          "A4": [
-            41.5,
-            33.6
+          "A2": [
+            33.7,
+            24.7
           ],
           "A3": [
-            26.7,
-            36
+            30.8,
+            35.1
           ],
-          "A2": [
+          "D6": [
+            29.4,
+            31.1
+          ],
+          "D5": [
             34.9,
-            20.5
-          ],
-          "D7": [
-            41.2,
-            29.9
-          ],
-          "D3": [
-            36.2,
-            21.1
+            23.6
           ]
         },
         "b": "A3",
-        "n": "A2 Single high cutter "
+        "n": "Smoke Screen Cutter - Feed if open"
       },
       {
         "t": 6,
         "p": {
-          "A2": [
-            34.7,
-            27.7
-          ],
           "A4": [
-            42,
-            33.6
+            40.4,
+            33.4
           ],
-          "D7": [
-            41.5,
-            30.7
-          ],
-          "D3": [
-            35.6,
-            25.9
+          "A2": [
+            36.8,
+            17.6
           ],
           "A3": [
-            30.5,
+            36.2,
             36.1
           ],
           "D6": [
-            30.6,
-            31.1
-          ]
-        },
-        "b": "A3",
-        "n": "We are looking to feed if open, but this is also a smoke screen"
-      },
-      {
-        "t": 9,
-        "p": {
-          "A2": [
-            41.4,
-            18.3
-          ],
-          "D3": [
-            40.7,
-            20.7
-          ],
-          "D7": [
-            39.7,
-            27.5
-          ],
-          "D6": [
-            30.8,
-            31
-          ],
-          "M2": [
-            31.5,
-            17.8
-          ],
-          "A4": [
-            38.2,
-            28.4
-          ],
-          "M1": [
-            37.4,
-            18.6
-          ]
-        },
-        "b": "A3",
-        "n": "A2 Clear out, M1 M2 cut A4 Crease roll"
-      },
-      {
-        "t": 11,
-        "p": {
-          "A3": [
-            37.1,
-            35.7
-          ],
-          "D6": [
-            36.5,
-            28.4
-          ],
-          "A4": [
-            34.3,
-            28.2
-          ],
-          "D7": [
-            34.5,
+            35.1,
             27.9
           ],
-          "M2": [
-            30.8,
-            25.3
+          "M3": [
+            34.9,
+            17.8
           ],
           "D5": [
-            35.6,
-            23.1
-          ],
-          "M1": [
-            38.1,
-            23.4
-          ],
-          "D4": [
             37.9,
-            21.7
+            19.9
           ]
         },
         "b": "A3",
-        "n": "Looking to feed"
+        "n": "Clear out"
       },
       {
-        "t": 15,
+        "t": 8,
         "p": {
-          "A3": [
-            40.1,
-            34.8
-          ],
-          "A4": [
-            30.3,
-            29.4
-          ],
-          "D6": [
-            40.2,
-            29.8
-          ],
-          "D7": [
-            31.3,
-            29
-          ],
-          "M2": [
-            33.2,
-            25.8
-          ],
           "M1": [
-            38.3,
-            26.4
+            30.4,
+            20.4
           ],
-          "D5": [
-            36,
-            25.2
-          ],
-          "D4": [
-            38.6,
-            23.3
-          ]
-        },
-        "b": "A3",
-        "n": "Looking to feed"
-      },
-      {
-        "t": 17,
-        "p": {
           "A4": [
-            27.4,
-            34.6
-          ],
-          "D7": [
-            28.5,
-            30.9
-          ],
-          "M2": [
-            32.4,
+            36.7,
             27.7
           ],
+          "A3": [
+            38.9,
+            35.2
+          ],
+          "D7": [
+            38.4,
+            28.1
+          ],
+          "D6": [
+            39.2,
+            30.9
+          ],
+          "D1": [
+            32.3,
+            18.7
+          ],
           "D4": [
-            38.5,
-            24.5
-          ],
-          "M1": [
-            38.3,
-            27.3
-          ],
-          "D5": [
-            35.8,
-            24.4
+            32.4,
+            21.5
           ]
         },
-        "b": "M2",
-        "n": "Feed. A4 replaces A3"
+        "b": "A3",
+        "n": "M1 uses screen to start cut - A4 starts roll"
       },
       {
-        "t": 17.5,
+        "t": 9.5,
+        "p": {
+          "M3": [
+            37.9,
+            24
+          ],
+          "A4": [
+            30.8,
+            29.3
+          ],
+          "M1": [
+            31.8,
+            24.2
+          ],
+          "D7": [
+            32,
+            28.9
+          ],
+          "A3": [
+            41.2,
+            35
+          ],
+          "D6": [
+            40.3,
+            30.9
+          ],
+          "D4": [
+            34.4,
+            23.3
+          ],
+          "D3": [
+            37.3,
+            22.4
+          ]
+        },
+        "b": "A3",
+        "n": "M1 and M3 cut to each side"
+      },
+      {
+        "t": 11.5,
+        "p": {
+          "M3": [
+            38.2,
+            27
+          ],
+          "A4": [
+            28,
+            35.7
+          ],
+          "M1": [
+            30.9,
+            27.6
+          ],
+          "A3": [
+            39.9,
+            35
+          ],
+          "D7": [
+            28.7,
+            30.8
+          ],
+          "D6": [
+            40.6,
+            31.4
+          ],
+          "D3": [
+            38.4,
+            24.7
+          ],
+          "D4": [
+            35.3,
+            27
+          ]
+        },
+        "b": "A3",
+        "n": "A3 looks to feed. A4 replaces A3 orignal spot"
+      },
+      {
+        "t": 12.5,
+        "p": {},
+        "b": "M1",
+        "n": "Feed"
+      },
+      {
+        "t": 12.5,
         "p": {},
         "b": "G",
         "n": "Shot"
